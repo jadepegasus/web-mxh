@@ -3,7 +3,7 @@ const Poster = () => {
         <div className="row justify-content-center mt-4">
         <div
           className="poster-component bg-light shadow-sm rounded-2 col-12"
-          style={{width: "100%", maxWidth: "562.4px", padding: "12px 16px"}}
+          style={{width: "95%", maxWidth: "562.4px", padding: "12px 16px"}}
         >
           <div className="poster-component-person d-flex">
             <div className="poster-component-avatar">
