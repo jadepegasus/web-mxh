@@ -1,6 +1,8 @@
 import "./App.css";
 import Login from "./Auth/Login";
-// import SignUp from "./Auth/Sign up";
+import SignUp from "./Auth/Sign up";
+
+
 // import Home from "./pages/home/Home";
 // import HomePage from "./components/homePage/HomePage";
 function App() {
@@ -15,8 +17,8 @@ function App() {
   //   </div >
   // );
   // return <HomePage />;
-  // return <SignUp />
-  return <Login/>
+  // return <Login/>
+  return <SignUp/>
 }
 
 export default App;

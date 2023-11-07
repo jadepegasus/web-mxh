@@ -24,6 +24,7 @@ function Login() {
     borderRadius: "5px",
     textAlign: "center",
     backgroundColor: "white",
+    marginTop: '20px'
   };
    
   const logo = {
@@ -31,7 +32,7 @@ function Login() {
     maxWidth: "464.4px",
     position: "fixed",
     left: "50%",
-    transform:"translateX(-50%)"
+    transform:"translateX(-50%)",
   }
 
   const inputStyle = {
@@ -139,13 +140,14 @@ function Login() {
         <div className="mt-3">
         <button className="btn btn-light border border-2 rounded-pill w-75 position-relative">
           <img className="position-absolute" style={Icon} src={googleIcon} alt="Google" />
-          <span className="ms-3">Login with Google</span>
+          <span className="ms-3" style={{fontWeight:'bold', color:'#444444'}}>Continue with Google</span>
           </button>
         <button className="btn btn-light border border-2 rounded-pill w-75 mt-2 position-relative">
           <img className="position-absolute" style={Icon} src={facebookIcon} alt="Facebook" />
-          <span className="ms-3">Login with Facebook</span>
+          <span className="ms-3" style={{fontWeight:'bold', color:'#444444'}}>Continue with Facebook</span>
           </button>
         </div>
+
 
       </div>
     </div>
