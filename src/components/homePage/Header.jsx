@@ -14,10 +14,10 @@ const Header = () => {
         <i className="fa-solid fa-user-group"></i>
       </div>
       <div className="chat-component ms-5">
-        <i class="fa-brands fa-rocketchat"></i>
+        <i className="fa-brands fa-rocketchat"></i>
       </div>
       <div className="notify-component ms-5">
-        <i class="fa-solid fa-bell"></i>
+        <i className="fa-solid fa-bell"></i>
       </div>
       <div className="setting-component ms-5 me-3">
         <i className="fa-solid fa-bars"></i>
