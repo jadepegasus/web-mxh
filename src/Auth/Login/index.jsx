@@ -4,6 +4,7 @@ import googleIcon from "../../img/google-18px.svg";
 import facebookIcon from "../../img/facebook-18px.svg";
 import HomePage from "../../components/homePage/HomePage";
 import SignUp from "../Signup";
+import { validateEmail, validatePassword } from "../../unity/validate";
 
 const loginContainerStyle = {
   width: "95%",
@@ -37,25 +38,6 @@ const inputStyle = {
   border: "1px solid #ccc",
 };
 
-const buttonLoginStyle = {
-  backgroundColor: "#f97707",
-  color: "#fff",
-  border: "none",
-  padding: "10px 0",
-  width: "100%",
-  cursor: "pointer",
-  borderRadius: "5px",
-  fontSize: "20px",
-};
-const buttonSignupStyle = {
-  backgroundColor: "#f97707",
-  color: "#fff",
-  border: "none",
-  padding: "10px 0",
-  width: "50%",
-  cursor: "pointer",
-  borderRadius: "5px",
-};
 const Image = {
   width: "150px",
   height: "150px",
@@ -135,7 +117,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <span className="text-danger">{err}</span>
-        <button style={buttonLoginStyle} onClick={() => handleLogin(email, password)}>
+        <button className="btn text-bg-primary bg-gradient w-100 pt-2 pb-2" onClick={() => handleLogin(email, password)} disabled={!validateEmail(email) || !validatePassword(password)}>
           Log in
         </button>
         <br />
@@ -148,7 +130,7 @@ function Login() {
 
         <div style={{ border: "1px solid #c1c1c1", margin: "20px" }}></div>
 
-        <button style={buttonSignupStyle} onClick={() => setSignup(true)}>Create new account</button>
+        <button className="btn text-bg-primary bg-gradient w-50 pt-2 pb-2" onClick={() => setSignup(true)}>Create new account</button>
         <div className="mt-3">
         <button className="btn btn-light border border-2 rounded-pill w-75 position-relative" onClick={() => authButton('google')}>
           <img className="position-absolute" style={Icon} src={googleIcon} alt="Google" />

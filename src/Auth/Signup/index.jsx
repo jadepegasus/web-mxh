@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import orange from "../../img/orange.png";
 import Login from "../Login";
 import HomePage from "../../components/homePage/HomePage";
+import { validateEmail, validatePassword } from "../../unity/validate";
 
 const signUpContainerStyle = {
   width: "95%",
@@ -38,16 +39,6 @@ const inputStyle = {
   border: "1px solid #ccc",
 };
 
-const buttonSignUpStyle = {
-  backgroundColor: "#f97707",
-  color: "#fff",
-  border: "none",
-  padding: "10px 0",
-  width: "100%",
-  cursor: "pointer",
-  borderRadius: "5px",
-  fontSize: "20px",
-};
 const Image = {
   // position: 'absolute',
   // top:'150px',
@@ -65,7 +56,6 @@ const Slogan = {
   fontFamily: "Pacifico, cursive",
 };
 
-
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -75,28 +65,40 @@ function SignUp() {
   const [year, setYear] = useState("");
   const [gender, setGender] = useState("");
   const [login, setLogin] = useState(false);
-  const [logined, setLogined] = useState(false)
-  const [err, SetErr] = useState('')
+  const [logined, setLogined] = useState(false);
+  const [err, SetErr] = useState("");
 
   // // console.log(`${year}-${month}-${day}`)
   // let fulldate = `${year}-${month}-${day}`;
   // let checkdate = new Date(fulldate);
   // console.log(checkdate.toUTCString());
 
-  const handleSignup = (user_email, user_password, user_fullname, user_birthday, user_gender) => {
-    fetch('/signup', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({user_email,user_password, user_fullname, user_birthday, user_gender })
+  const handleSignup = (
+    user_email,
+    user_password,
+    user_fullname,
+    user_birthday,
+    user_gender
+  ) => {
+    fetch("/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_email,
+        user_password,
+        user_fullname,
+        user_birthday,
+        user_gender,
+      }),
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-      setLogined(data?.status === 'success')
-      if (data?.status === 'fail') SetErr(data.message)
-    })
-    .catch(err => console.log(err))
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setLogined(data?.status === "success");
+        if (data?.status === "fail") SetErr(data.message);
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (login) return <Login />;
   if (logined) return <HomePage />;
@@ -198,7 +200,21 @@ function SignUp() {
           <option value="O">Other</option>
         </select>
         <span className="text-danger">{err}</span>
-        <button style={buttonSignUpStyle} onClick={() => {handleSignup(email, password, fullName, `${year}-${month}-${day}`, gender)}}>Sign up</button>
+        <button
+          className="btn text-bg-primary bg-gradient w-100 pt-2 pb-2"
+          onClick={() => {
+            handleSignup(
+              email,
+              password,
+              fullName,
+              `${year}-${month}-${day}`,
+              gender
+            );
+          }}
+          disabled={!validateEmail(email) || !validatePassword(password)}
+        >
+          Sign up
+        </button>
         <div className="mt-3">
           <button
             className="btn btn-light border border-2 rounded-pill w-75 position-relative"
