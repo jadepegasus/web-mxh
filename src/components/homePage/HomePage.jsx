@@ -2,6 +2,7 @@ import Status from "./Status";
 import Poster from "./Poster";
 import { useEffect, useState } from "react";
 import useFetch from "../../unity/useFetch";
+import Header from "./Header";
 
 const HomePage = () => {
   const [user] = useFetch("/api/users/myinfo");
@@ -35,7 +36,8 @@ const HomePage = () => {
     }
   }, [user]);
 
-  return (
+  return (<>
+  <Header></Header>
     <div className="bg-secondary bg-opacity-10 pb-5">
       <Status user={user?.data} setPost={addPosts} />
       {posts.map((post) => (
@@ -48,6 +50,7 @@ const HomePage = () => {
         />
       ))}
     </div>
+    </>
   );
 };
 export default HomePage;

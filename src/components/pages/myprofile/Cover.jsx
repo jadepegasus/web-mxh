@@ -14,7 +14,11 @@ const Cover = (props) => {
         >
           <div className="position-absolute top-0 start-0 end-0 bottom-0">
             <img
-              src={props.user ? `${host}/api/images/${props.user?.user_cover}` : ''}
+              src={
+                props.user?.user_cover
+                  ? `${host}/api/images/${props.user?.user_cover}`
+                  : `${host}/default_cover.png`
+              }
               height="100%"
               width="100%"
               className="rounded-4"
@@ -38,21 +42,27 @@ const Cover = (props) => {
                 width="100%"
                 className="rounded-circle"
                 alt="avatar"
-                src={props.user ? `${host}/api/images/${props.user.user_picture}` : ''}
+                src={
+                  props.user?.user_picture
+                    ? `${host}/api/images/${props.user.user_picture}`
+                    : `${host}/default_avatar.png`
+                }
               ></img>
             </div>
             <div className="text-center">
               <p className="mt-2 fs-2 fw-bold">{props.user?.user_fullname}</p>
             </div>
-            <button
-              type="button"
-              className="btn btn-light shadow-sm border"
-              data-bs-toggle="modal"
-              data-bs-target="#editProfileModal"
-            >
-              <i className="fa-solid fa-pen"></i>
-              <span className="ms-2 fw-semibold">Sửa trang cá nhân</span>
-            </button>
+            {props.readonly || (
+              <button
+                type="button"
+                className="btn btn-light shadow-sm border"
+                data-bs-toggle="modal"
+                data-bs-target="#editProfileModal"
+              >
+                <i className="fa-solid fa-pen"></i>
+                <span className="ms-2 fw-semibold">Sửa trang cá nhân</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

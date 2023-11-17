@@ -48,7 +48,7 @@ const Status = (props) => {
           style={{ width: "95%", maxWidth: "562.4px", padding: "12px 16px" }}
         >
           <div className="d-flex">
-            <Link to="/myprofile">
+            <Link to={`/profile?id=${props.user?._id}`}>
               <div>
                 <img
                   style={{ height: "40px", width: "40px" }}
@@ -58,7 +58,7 @@ const Status = (props) => {
                   alt="demo Img"
                   width="100%"
                   className="rounded-circle"
-                  src={props.user ? `${host}/api/images/${props.user?.user_picture}` : ''}
+                  src={props.user?.user_picture ? `${host}/api/images/${props.user?.user_picture}` : `${host}/default_avatar.png`}
                 ></img>
               </div>
             </Link>
@@ -166,7 +166,7 @@ const Status = (props) => {
                     alt="demo Img"
                     width="100%"
                     className="rounded-circle"
-                    src={props.user ? `${host}/api/images/${props.user?.user_picture}` : ''}
+                    src={props.user?.user_picture ? `${host}/api/images/${props.user?.user_picture}` : `${host}/default_avatar.png`}
                   ></img>
                 </span>
                 <span className="mb-0 fw-semibold lh-sm">

@@ -2,9 +2,9 @@ import React, { useState, useCallback } from "react";
 import orange from "../../img/orange.png";
 import googleIcon from "../../img/google-18px.svg";
 import facebookIcon from "../../img/facebook-18px.svg";
-import Home from "../../components/pages/Home";
 import SignUp from "../Signup";
 import { validateEmail, validatePassword } from "../../unity/validate";
+import HomePage from "../../components/homePage/HomePage";
 
 const loginContainerStyle = {
   width: "95%",
@@ -146,7 +146,7 @@ function Login() {
       </div>
     </div>
   )
-  return <Home />
+  return <HomePage />
 }
 
 export default Login;

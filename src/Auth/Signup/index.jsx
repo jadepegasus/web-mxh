@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import orange from "../../img/orange.png";
 import Login from "../Login";
-import Home from "../../components/pages/Home";
 import { validateEmail, validatePassword } from "../../unity/validate";
+import HomePage from "../../components/homePage/HomePage";
 
 const signUpContainerStyle = {
   width: "95%",
@@ -101,7 +101,7 @@ function SignUp() {
   };
 
   if (login) return <Login />;
-  if (logined) return <Home />;
+  if (logined) return <HomePage />;
   return (
     <div
       style={{ backgroundColor: "#f5f5f5", height: "100vh", display: "flex" }}
