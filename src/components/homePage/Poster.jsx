@@ -78,7 +78,7 @@ const Poster = (props) => {
               width="100%"
               className="rounded-circle"
               alt="avatar"
-              src={host + props.user?.user_picture}
+              src={`${host}/api/images/${props.user?.user_picture}`}
             ></img>
           </div>
           <div className="poster-component-name flex-fill ms-2">

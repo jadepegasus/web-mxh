@@ -60,7 +60,7 @@ const EditPoster = (props) => {
               alt="demo Img"
               width="100%"
               className="rounded-circle"
-              src={props.user?.user_picture}
+              src={`${host}/api/images/${props.user?.user_picture}`}
             ></img>
           </span>
           <span className="mb-0 fw-semibold lh-sm">

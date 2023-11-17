@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import { host } from "../../env";
 const Status = (props) => {
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState("");
@@ -9,58 +11,57 @@ const Status = (props) => {
   };
 
   const handleClickPost = (e) => {
-    const formData = new FormData(formElement.current)
+    const formData = new FormData(formElement.current);
 
-    fetch('/api/posts', {
-      method: 'POST',
-      body: formData
+    fetch("/api/posts", {
+      method: "POST",
+      body: formData,
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      if(data.status === "success") {
-        setStatus('')
-        // setImages([])
-        props.setPost(data.data)
-        alert('thêm bài viết thành công')
-        closeModal.current.click()
-      } else {
-        alert(data.message)
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-
-  }
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          setStatus("");
+          props.setPost(data.data);
+          alert("thêm bài viết thành công");
+          closeModal.current.click();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <>
       <div
-        className="row justify-content-center"
-        style={{ paddingTop: "70px" }}
+        className="row justify-content-center pt-4"
       >
         <div
           className="bg-light shadow-sm rounded-2 col-12"
           style={{ width: "95%", maxWidth: "562.4px", padding: "12px 16px" }}
         >
           <div className="d-flex">
-            <div style={{ cursor: "pointer" }}>
-              <img
-                style={{ height: "40px", width: "40px" }}
-                x="0"
-                y="0"
-                height="100%"
-                alt="demo Img"
-                width="100%"
-                className="rounded-circle"
-                src={props.user?.user_picture}
-              ></img>
-            </div>
+            <Link to="/myprofile">
+              <div>
+                <img
+                  style={{ height: "40px", width: "40px" }}
+                  x="0"
+                  y="0"
+                  height="100%"
+                  alt="demo Img"
+                  width="100%"
+                  className="rounded-circle"
+                  src={props.user ? `${host}/api/images/${props.user?.user_picture}` : ''}
+                ></img>
+              </div>
+            </Link>
 
             <button
               className="btn btn-light border rounded-pill ms-2 w-100 text-body-tertiary"
@@ -165,7 +166,7 @@ const Status = (props) => {
                     alt="demo Img"
                     width="100%"
                     className="rounded-circle"
-                    src={props.user?.user_picture}
+                    src={props.user ? `${host}/api/images/${props.user?.user_picture}` : ''}
                   ></img>
                 </span>
                 <span className="mb-0 fw-semibold lh-sm">
@@ -186,7 +187,10 @@ const Status = (props) => {
                     setStatus(e.target.value);
                   }}
                 ></textarea>
-                <label htmlFor="formFileMultiple" className="btn btn-light w-100">
+                <label
+                  htmlFor="formFileMultiple"
+                  className="btn btn-light w-100"
+                >
                   <span className="me-2">
                     <img
                       height="24"
@@ -201,7 +205,6 @@ const Status = (props) => {
                   ))}
                 </label>
                 <input
-                  change={status}
                   name="images"
                   className="d-none"
                   type="file"
@@ -210,12 +213,15 @@ const Status = (props) => {
                   multiple
                   onChange={handleImageChange}
                 ></input>
-
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary w-100"
-              onClick={handleClickPost} disabled={!status}>
+              <button
+                type="button"
+                className="btn btn-primary w-100"
+                onClick={handleClickPost}
+                disabled={!status}
+              >
                 Đăng
               </button>
             </div>

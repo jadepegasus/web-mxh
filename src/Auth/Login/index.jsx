@@ -2,7 +2,7 @@ import React, { useState, useCallback } from "react";
 import orange from "../../img/orange.png";
 import googleIcon from "../../img/google-18px.svg";
 import facebookIcon from "../../img/facebook-18px.svg";
-import HomePage from "../../components/homePage/HomePage";
+import Home from "../../components/pages/Home";
 import SignUp from "../Signup";
 import { validateEmail, validatePassword } from "../../unity/validate";
 
@@ -146,7 +146,7 @@ function Login() {
       </div>
     </div>
   )
-  return <HomePage />
+  return <Home />
 }
 
 export default Login;

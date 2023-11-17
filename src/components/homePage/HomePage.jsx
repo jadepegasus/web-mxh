@@ -1,4 +1,3 @@
-import Header from "./Header";
 import Status from "./Status";
 import Poster from "./Poster";
 import { useEffect, useState } from "react";
@@ -38,7 +37,6 @@ const HomePage = () => {
 
   return (
     <div className="bg-secondary bg-opacity-10 pb-5">
-      <Header />
       <Status user={user?.data} setPost={addPosts} />
       {posts.map((post) => (
         <Poster

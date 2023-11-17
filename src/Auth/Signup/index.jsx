@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import orange from "../../img/orange.png";
 import Login from "../Login";
-import HomePage from "../../components/homePage/HomePage";
+import Home from "../../components/pages/Home";
 import { validateEmail, validatePassword } from "../../unity/validate";
 
 const signUpContainerStyle = {
@@ -101,7 +101,7 @@ function SignUp() {
   };
 
   if (login) return <Login />;
-  if (logined) return <HomePage />;
+  if (logined) return <Home />;
   return (
     <div
       style={{ backgroundColor: "#f5f5f5", height: "100vh", display: "flex" }}
@@ -194,10 +194,10 @@ function SignUp() {
           value={gender}
           onChange={(e) => setGender(e.target.value)}
         >
-          <option value="O">Gender</option>
-          <option value="M">Male</option>
-          <option value="F">Female</option>
-          <option value="O">Other</option>
+          <option value="Khác">Gender</option>
+          <option value="Nam">Male</option>
+          <option value="Nữ">Female</option>
+          <option value="Khác">Other</option>
         </select>
         <span className="text-danger">{err}</span>
         <button
