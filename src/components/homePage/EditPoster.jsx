@@ -47,7 +47,9 @@ const EditPoster = (props) => {
         onClick={e => e.stopPropagation()}
       >
         <div className="text-center pt-3">
+          <button type="button" class="btn-close float-end" aria-label="Close" onClick={props.close}></button>
           <h1>Sửa bài viết</h1>
+
           <hr />
         </div>
         <div>

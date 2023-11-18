@@ -1,5 +1,16 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import SearchBoard from "./header/SearchBoard";
+import FriendBoard from "./header/FriendBoard";
 const Header = () => {
+  const [search, setSearch] = useState(false)
+  const [friend, setFriend] = useState(false) 
+  const handleOnSearch = () => {
+    setSearch(!search)
+  }
+  const handleClickFriend = () => {
+    setFriend(!friend)
+  }
   return (
     <div className="w-100"
     style={{height:'56px'}}>
@@ -15,15 +26,18 @@ const Header = () => {
           </button>
         </Link>
 
-        <button className="btn btn-light border rounded-circle fs-5 me-2">
+        <button className="btn btn-light border rounded-circle fs-5 me-2" onClick={handleOnSearch}>
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </div>
 
       <div>
-        <button className="btn btn-light border rounded-circle fs-5 me-2">
-          <i className="fa-solid fa-user-group"></i>
-        </button>
+        <span className="postion-relative">
+          <button className="btn btn-light border rounded-circle fs-5 me-2" onClick={handleClickFriend}>
+            <i className="fa-solid fa-user-group"></i>
+          </button>
+          {friend && <FriendBoard />}
+        </span>
 
         <button className="btn btn-light border rounded-circle fs-5 me-2">
           <i className="fa-brands fa-rocketchat"></i>
@@ -38,6 +52,8 @@ const Header = () => {
         </button>
       </div>
     </div>
+    {search && <SearchBoard close={handleOnSearch}/>}
+      
     </div>
   );
 };

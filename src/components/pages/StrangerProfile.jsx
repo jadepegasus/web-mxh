@@ -13,7 +13,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
         .then((data) => {
           if (data.status === "success") setUser(data.data);
         });
-    }, []);
+    }, [user_id]);
 
     useEffect(() => {
           fetch("api/posts/user/" + user_id)
@@ -28,7 +28,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
 
             }
             );
-      }, []);
+      }, [user_id]);
 
   if (user)
     return (
