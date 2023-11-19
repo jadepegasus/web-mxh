@@ -3,11 +3,17 @@ import Poster from "./Poster";
 import { useEffect, useState } from "react";
 import useFetch from "../../unity/useFetch";
 import Header from "./Header";
+import { socket } from "../../socket";
 
 const HomePage = () => {
   const [user] = useFetch("/api/users/myinfo");
   const [posts, setPosts] = useState([]);
 
+  useEffect(() => {
+    if (user?.data?._id) {
+      socket.emit('active', user.data._id)
+    }
+  },[user])
 
   const addPosts = (post) => {
     setPosts([post, ...posts]);

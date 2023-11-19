@@ -16,7 +16,7 @@ const UserBar = ({user}) => {
                      <span className="ms-2">{user?.user_fullname}</span>
 
                     </div>
-                    <div>{(user?.user_activated === 'on') ? 'on' : 'off'}</div>
+                    <div>{(user?.user_activated === 'on') ? <i class="fa-solid fa-earth-americas"></i> : <i class="fa-solid fa-power-off"></i>}</div>
                 </div>
             </Link>
         </div>

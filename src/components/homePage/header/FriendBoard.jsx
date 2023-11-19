@@ -7,7 +7,9 @@ const FriendBoard = ({ close }) => {
       fetch("/api/friends/getfriends")
         .then((result) => result.json())
         .then((data) => {
-          if (data.status === "success") setFriends(data.data);
+          if (data.status === "success") setFriends(data.data.sort((a, b) => {
+            return a.date < b.date ? 1 : -1;
+          }));
         });
   }, []);
   return (

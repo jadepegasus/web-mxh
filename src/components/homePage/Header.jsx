@@ -1,59 +1,101 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchBoard from "./header/SearchBoard";
 import FriendBoard from "./header/FriendBoard";
+import NotificationBoard from "./header/NotificationBoard";
+import { socket } from "../../socket";
+
 const Header = () => {
-  const [search, setSearch] = useState(false)
-  const [friend, setFriend] = useState(false) 
+  const [search, setSearch] = useState(false);
+  const [friend, setFriend] = useState(false);
+  const [notification, setNotification] = useState(false);
+  const [numNotify, setNumNotify] = useState(0);
+
+  useEffect(() => {
+    function onNotify(notify) {
+      setNumNotify(pre => (pre + 1))
+      document.title = notify
+    }
+    socket.on("notify", onNotify);
+    return () => {
+      console.log('out socket')
+      socket.off("notify", onNotify);
+    };
+  }, []);
+
   const handleOnSearch = () => {
-    setSearch(!search)
-  }
+    setSearch(!search);
+  };
   const handleClickFriend = () => {
-    setFriend(!friend)
-  }
+    setFriend(!friend);
+    setNotification(false);
+  };
+  const handleClickNotification = () => {
+    if (!notification) {
+      setNumNotify(0);
+      document.title = 'wel-come'
+
+    }
+    setNotification(!notification);
+    setFriend(false);
+  };
   return (
-    <div className="w-100"
-    style={{height:'56px'}}>
+    <div className="w-100" style={{ height: "56px" }}>
+      <div
+        className="shadow-sm position-fixed d-flex align-items-center p-1 justify-content-between w-100 bg-light z-3"
+        style={{ fontSize: "2rem" }}
+      >
+        <div>
+          <Link to="/">
+            <button className="btn btn-light border rounded-circle fs-5 me-2 ms-3">
+              <i className="fa-solid fa-house"></i>
+            </button>
+          </Link>
 
-    <div
-      className="shadow-sm position-fixed d-flex align-items-center p-1 justify-content-between w-100 bg-light z-3"
-      style={{ fontSize: "2rem" }}
-    >
-      <div>
-        <Link to="/">
-          <button className="btn btn-light border rounded-circle fs-5 me-2 ms-3">
-            <i className="fa-solid fa-house"></i>
+          <button
+            className="btn btn-light border rounded-circle fs-5 me-2"
+            onClick={handleOnSearch}
+          >
+            <i className="fa-solid fa-magnifying-glass"></i>
           </button>
-        </Link>
+        </div>
 
-        <button className="btn btn-light border rounded-circle fs-5 me-2" onClick={handleOnSearch}>
-          <i className="fa-solid fa-magnifying-glass"></i>
-        </button>
-      </div>
+        <div>
+          <span className="postion-relative">
+            <button
+              className="btn btn-light border rounded-circle fs-5 me-2"
+              onClick={handleClickFriend}
+            >
+              <i className="fa-solid fa-user-group"></i>
+            </button>
+            {friend && <FriendBoard />}
+          </span>
 
-      <div>
-        <span className="postion-relative">
-          <button className="btn btn-light border rounded-circle fs-5 me-2" onClick={handleClickFriend}>
-            <i className="fa-solid fa-user-group"></i>
+          <button className="btn btn-light border rounded-circle fs-5 me-2">
+            <i className="fa-brands fa-rocketchat"></i>
           </button>
-          {friend && <FriendBoard />}
-        </span>
 
-        <button className="btn btn-light border rounded-circle fs-5 me-2">
-          <i className="fa-brands fa-rocketchat"></i>
-        </button>
+          <span className="position-relative">
+            <button
+              className="btn btn-light border rounded-circle fs-5 me-2 position-relative"
+              onClick={handleClickNotification}
+            >
+              <i className="fa-solid fa-bell"></i>
+              {!(numNotify > 0) ||
+              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {numNotify}+
+              </span>
+              }
+            </button>
+            {notification && <NotificationBoard />}
+          </span>
 
-        <button className="btn btn-light border rounded-circle fs-5 me-2">
-          <i className="fa-solid fa-bell"></i>
-        </button>
-
-        <button className="btn btn-light border rounded-circle fs-5 me-3">
-          <i className="fa-solid fa-bars"></i>
-        </button>
+          <button className="btn btn-light border rounded-circle fs-5 me-3">
+            <i className="fa-solid fa-bars"></i>
+          </button>
+        </div>
       </div>
-    </div>
-    {search && <SearchBoard close={handleOnSearch}/>}
-      
+      {search && <SearchBoard close={handleOnSearch} />}
     </div>
   );
 };
