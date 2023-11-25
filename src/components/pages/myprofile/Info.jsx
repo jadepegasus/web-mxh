@@ -1,4 +1,9 @@
+
 const Info = (props) => {
+  const getbirthday = () => {
+    let index = props.user?.user_birthday?.indexOf("T")
+    return props.user?.user_birthday?.slice(0, index)
+  }
   return (
       <div className="row justify-content-center mt-4">
         <div
@@ -17,7 +22,7 @@ const Info = (props) => {
         <p>Nơi làm việc: <span className="fw-semibold">{props.user?.user_work_place}</span></p>
         <p>Thành phố hiện tại: <span className="fw-semibold">{props.user?.user_current_city}</span></p>
         <p>Đến từ: <span className="fw-semibold">{props.user?.user_hometown}</span></p>
-        <p>Sinh nhật: <span className="fw-semibold">{props.user?.user_birthday}</span></p>
+        <p>Sinh nhật: <span className="fw-semibold">{getbirthday()}</span></p>
         </div>
       </div>
   );

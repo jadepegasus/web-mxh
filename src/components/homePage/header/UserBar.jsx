@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { host } from "../../../env"
-const UserBar = ({user}) => {
+const UserBar = ({user, react}) => {
     return (
         <div>
             <Link to={`/profile?id=${user?._id}`} className="text-decoration-none">
@@ -16,7 +16,11 @@ const UserBar = ({user}) => {
                      <span className="ms-2">{user?.user_fullname}</span>
 
                     </div>
-                    <div>{(user?.user_activated === 'on') ? <i class="fa-solid fa-earth-americas"></i> : <i class="fa-solid fa-power-off"></i>}</div>
+                    {
+                        !react ? 
+                        <div>{(user?.user_activated === 'on') ? <i className="fa-solid fa-earth-americas"></i> : <i className="fa-solid fa-power-off"></i>}</div> :
+                        <div>{react==='like' ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-solid fa-thumbs-down"></i>}</div>
+                    }
                 </div>
             </Link>
         </div>

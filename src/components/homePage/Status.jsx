@@ -26,7 +26,7 @@ const Status = (props) => {
       .then((data) => {
         if (data.status === "success") {
           setStatus("");
-          props.setPost(data.data);
+          props.setPost({...data.data, user: props.user});
           alert("thêm bài viết thành công");
           closeModal.current.click();
         } else {

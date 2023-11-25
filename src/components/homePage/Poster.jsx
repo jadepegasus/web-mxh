@@ -2,18 +2,43 @@ import { host } from "../../env";
 import { useState } from "react";
 import EditPoster from "./EditPoster";
 import { Link } from "react-router-dom";
+import Like from "../like/Like";
+import UsersLiked from "../like/UsersLiked";
+const options = {
+  weekday: 'long', // Thứ
+  hour: 'numeric', // Giờ
+  minute: 'numeric', // Phút
+  day: 'numeric', // Ngày
+  month: 'long', // Tháng
+  year: 'numeric' // Năm
+};
+
+const formatter = new Intl.DateTimeFormat('vi-VN', options);
 
 const Poster = (props) => {
   const [edit, setEdit] = useState(false);
+  const [poster, SetPoster] = useState(props.post)
+  const [like, setLike] = useState({ likes: poster.likes, unlikes: poster.unlikes })
+  const [usersLiked, setUsersLiked] = useState(false)
+
+  const closeUsersLiked = () => {
+    setUsersLiked(false)
+  }
+
+  const setLikes = (likes) => {
+    setLike(likes)
+  }
 
   const closeEdit = () => {
     setEdit(false);
   };
-
+  const updatePoster = (u_poster) => {
+    SetPoster(u_poster)
+  }
   const handleDeletePoster = () => {
     let confirm = window.confirm("xác nhận xóa poster?");
     if (confirm) {
-      fetch("/api/posts/" + props.post?._id, { method: "DELETE" })
+      fetch("/api/posts/" + poster?._id, { method: "DELETE" })
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
@@ -23,7 +48,7 @@ const Poster = (props) => {
         .then((data) => {
           if (data.status === "success") {
             window.alert("đã xóa thành công");
-            props.delete(props.post);
+            props.delete(poster);
           } else {
             window.alert(data.message);
           }
@@ -93,15 +118,15 @@ const Poster = (props) => {
               <p className="mb-0 fw-semibold lh-sm">
                 {props.user?.user_fullname}
               </p>
-              <small className="text-secondary lh-sm">{props.post?.time}</small>
+              <small className="text-secondary lh-sm">{formatter.format(new Date(poster?.time))}</small>
             </div>
           </div>
           <div>
-            <p>{props.post?.text}</p>
+            <p>{poster?.text}</p>
 
-            <div id={"image" + props.post?._id} className="carousel slide">
+            <div id={"image" + poster?._id} className="carousel slide">
               <div className="carousel-inner">
-                {props.post?.photos?.map((picture, index) => {
+                {poster?.photos?.map((picture, index) => {
                   let active = "carousel-item active";
                   let normal = "carousel-item";
                   return (
@@ -119,7 +144,7 @@ const Poster = (props) => {
               <button
                 className="carousel-control-prev"
                 type="button"
-                data-bs-target={"#image" + props.post?._id}
+                data-bs-target={"#image" + poster?._id}
                 data-bs-slide="prev"
               >
                 <span
@@ -131,7 +156,7 @@ const Poster = (props) => {
               <button
                 className="carousel-control-next"
                 type="button"
-                data-bs-target={"#image" + props.post?._id}
+                data-bs-target={"#image" + poster?._id}
                 data-bs-slide="next"
               >
                 <span
@@ -143,17 +168,14 @@ const Poster = (props) => {
             </div>
           </div>
           <div className="text-success">
+            <div className="d-flex justify-content-between">
+              <small style={{cursor: 'pointer'}} onClick={e => setUsersLiked(true)}>{like.likes} thích, {like.unlikes} không thích</small>
+              <small>{poster?.comments} bình luận, {poster?.shares} chia sẻ</small>
+            </div>
             <hr />
           </div>
           <div className="row gx-0 mb-2">
-            <div className="col">
-              <button className="btn btn-light w-100">
-                <span className="me-2">
-                  <i className="fa-regular fa-thumbs-up"></i>
-                </span>
-                <span>Thích</span>
-              </button>
-            </div>
+            <Like user_id={poster?.user_id} post_id={poster?._id} set_like={setLikes} like={like} />
             <div className="col">
               <button className="btn btn-light w-100">
                 <span className="me-2">
@@ -176,11 +198,12 @@ const Poster = (props) => {
       {edit && (
         <EditPoster
           user={props.user}
-          post={props.post}
+          post={poster}
           close={closeEdit}
-          update={props.update}
+          update={updatePoster}
         />
       )}
+      {usersLiked && <UsersLiked close={closeUsersLiked} post_id={poster._id} />}
     </>
   );
 };

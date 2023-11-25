@@ -26,11 +26,6 @@ const MyProfile= () => {
       setPosts(posts.filter((value) => value._id !== post._id));
     };
   
-    const updatePost = (post) => {
-      const newPosts = posts.filter(value => value._id !== post._id)
-      setPosts([post, ...newPosts])
-    }
-  
     useEffect(() => {
       if (user?.data) {
         fetch("api/posts/user/" + user.data._id)
@@ -57,7 +52,6 @@ const MyProfile= () => {
             post={post}
             user={user?.data}
             delete={deletePost}
-            update={updatePost}
           />
         ))}
       </div>

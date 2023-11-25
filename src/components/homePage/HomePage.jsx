@@ -11,9 +11,23 @@ const HomePage = () => {
 
   useEffect(() => {
     if (user?.data?._id) {
-      socket.emit('active', user.data._id)
+      socket.emit("active", user.data._id);
     }
-  },[user])
+  }, [user]);
+
+  useEffect(() => {
+    if (user?.data) {
+      fetch("api/posts")
+        .then((res) => res.json())
+        .then((data) => {
+          setPosts(
+            data.data.sort((a, b) => {
+              return a.time < b.time ? 1 : -1;
+            })
+          );
+        });
+    }
+  }, [user]);
 
   const addPosts = (post) => {
     setPosts([post, ...posts]);
@@ -23,39 +37,21 @@ const HomePage = () => {
     setPosts(posts.filter((value) => value._id !== post._id));
   };
 
-  const updatePost = (post) => {
-    const newPosts = posts.filter(value => value._id !== post._id)
-    setPosts([post, ...newPosts])
-  }
-
-  useEffect(() => {
-    if (user?.data) {
-      fetch("api/posts/user/" + user.data._id)
-        .then((res) => res.json())
-        .then((data) =>
-          setPosts(
-            data.data.sort((a, b) => {
-              return a.time < b.time ? 1 : -1;
-            })
-          )
-        );
-    }
-  }, [user]);
-
-  return (<>
-  <Header></Header>
-    <div className="bg-secondary bg-opacity-10 pb-5">
-      <Status user={user?.data} setPost={addPosts} />
-      {posts.map((post) => (
-        <Poster
-          key={post?._id}
-          post={post}
-          user={user?.data}
-          delete={deletePost}
-          update={updatePost}
-        />
-      ))}
-    </div>
+  return (
+    <>
+      <Header></Header>
+      <div className="bg-secondary bg-opacity-10 pb-5">
+        <Status user={user?.data} setPost={addPosts} />
+        {posts.map((post) => (
+          <Poster
+            key={post?._id}
+            post={post}
+            user={post.user}
+            readonly={(user?.data?._id !== post.user?._id)}
+            delete={deletePost}
+          />
+        ))}
+      </div>
     </>
   );
 };

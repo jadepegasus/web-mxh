@@ -2,52 +2,73 @@ import { useState, useRef } from "react";
 import { host } from "../../env";
 const EditPoster = (props) => {
   const [images, setImages] = useState([]);
-  const [text, setText] = useState(null)
+  const [text, setText] = useState(null);
   const formElement = useRef();
-  const closeModal = useRef()
+  const closeModal = useRef();
+  const [prevImages, setPrevImages] = useState(props.post.photos);
+  const [imageRemove, setImageRemove] = useState([]);
 
   const handleImageChange = (event) => {
     setImages(event.target.files);
   };
 
-  const handleEditButton = () => {
-    const formData = new FormData(formElement.current)
+  const removeImage = (image_id) => {
+    setPrevImages(prevImages.filter((value) => value !== image_id));
+    setImageRemove([...imageRemove, image_id]);
+  };
 
-    fetch('/api/posts/' + props.post?._id, {
-      method: 'PUT',
-      body: formData
+  const handleEditButton = () => {
+    const formData = new FormData(formElement.current);
+    formData.append("imageRemove", JSON.stringify(imageRemove));
+
+    fetch("/api/posts/" + props.post?._id, {
+      method: "PUT",
+      body: formData,
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      if(data.status === "success") {   
-        window.alert('sửa ảnh thành công') 
-        props.update(data.data)    
-        closeModal.current.click()
-      } else {
-        alert(data.message)
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          window.alert("sửa ảnh thành công");
+          props.update(data.data);
+          closeModal.current.click();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
-    <div className="position-fixed top-0 start-0 w-100 h-100 z-3 bg-secondary bg-opacity-50"
-    ref={closeModal}
-    onClick={props.close}>
+    <div
+      className="position-fixed top-0 start-0 w-100 h-100 z-3 bg-secondary bg-opacity-50"
+      ref={closeModal}
+      onClick={props.close}
+    >
       <div
-        className="position-absolute top-50 start-50 translate-middle bg-light rounded-4"
-        style={{ maxWidth: "90%", width: "540px", overflowY:'auto', maxHeight: '75vh' }}
-        onClick={e => e.stopPropagation()}
+        className="position-absolute start-50 translate-middle-x bg-light rounded-4"
+        style={{
+          maxWidth: "90%",
+          width: "540px",
+          overflowY: "auto",
+          maxHeight: "75vh",
+          top: '15%'
+        }}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="text-center pt-3">
-          <button type="button" class="btn-close float-end" aria-label="Close" onClick={props.close}></button>
+          <button
+            type="button"
+            className="btn-close float-end"
+            aria-label="Close"
+            onClick={props.close}
+          ></button>
           <h1>Sửa bài viết</h1>
 
           <hr />
@@ -62,7 +83,11 @@ const EditPoster = (props) => {
               alt="demo Img"
               width="100%"
               className="rounded-circle"
-              src={props.user?.user_picture ?  `${host}/api/images/${props.user?.user_picture}` : `${host}/default_avatar.png`}
+              src={
+                props.user?.user_picture
+                  ? `${host}/api/images/${props.user?.user_picture}`
+                  : `${host}/default_avatar.png`
+              }
             ></img>
           </span>
           <span className="mb-0 fw-semibold lh-sm">
@@ -75,18 +100,30 @@ const EditPoster = (props) => {
             className="form-control mt-2"
             style={{ border: "none", boxShadow: "none" }}
             rows="5"
-            value={text!=null ? text : props.post?.text}
+            value={text != null ? text : props.post?.text}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
 
           <div>
-            {props.post?.photos?.map((picture, index) => {
-              return <img
-              alt='img-post'
-                key={index}
-                src={`${host}/api/images/${picture}`}
-                width='30%'
-              />
+            {prevImages.map((picture, index) => {
+              return (
+                <span
+                  className="position-relative d-inline-block w-50"
+                  key={index}
+                >
+                  <button
+                    type="button"
+                    className="btn-close position-absolute end-0 bg-secondary"
+                    aria-label="Close"
+                    onClick={(e) => removeImage(picture)}
+                  ></button>
+                  <img
+                    alt="img-post"
+                    src={`${host}/api/images/${picture}`}
+                    className="w-100"
+                  />
+                </span>
+              );
             })}
           </div>
 
@@ -114,7 +151,7 @@ const EditPoster = (props) => {
             onChange={handleImageChange}
           ></input>
         </form>
-        <hr/>
+        <hr />
         <button
           type="button"
           className="btn btn-primary w-100 mb-2"
