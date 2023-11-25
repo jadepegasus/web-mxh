@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const active = {
   top: "-100%",
@@ -16,9 +16,8 @@ const unactive = {
   overflow: "hidden",
 };
 
-const Like = ({ post_id, user_id, set_like, like }) => {
+const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [react, setReact] = useState("none");
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -27,28 +26,12 @@ const Like = ({ post_id, user_id, set_like, like }) => {
     setIsHovered(false);
   };
 
-  useEffect(() => {
-    if (post_id) {
-      fetch("/api/likes", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ post_id, user_id }),
-      })
-        .then((result) => result.json())
-        .then((data) => {
-          if (data?.data) {
-            setReact(data.data?.type);
-          }
-        });
-    }
-  }, [post_id, user_id]);
-
   const handleReact = async (type) => {
     setReact(type);
-    if(type === 'like' && react === 'none') set_like({...like, likes: like.likes+1})
-    if(type === 'unlike' && react ==='none') set_like({...like, unlikes: like.unlikes+1})
-    if(type === 'unlike' && react ==='like') set_like({unlikes: like.unlikes+1, likes: like.likes-1})
-    if(type === 'like' && react ==='unlike') set_like({unlikes: like.unlikes -1, likes: like.likes+1})
+    if(type === 'like' && react === 'none') update({...poster, likes: poster?.likes+1})
+    if(type === 'unlike' && react ==='none') update({...poster, unlikes: poster?.unlikes+1})
+    if(type === 'unlike' && react ==='like') update({...poster, likes: poster?.likes-1, unlikes: poster?.unlikes+1})
+    if(type === 'like' && react ==='unlike') update({...poster, likes: poster?.likes+1, unlikes: poster?.unlikes-1})
 
 
     await fetch("/api/likes", {
@@ -65,8 +48,8 @@ const Like = ({ post_id, user_id, set_like, like }) => {
   };
 
   const handleUnReact = () => {
-    if(react === 'like') set_like({...like, likes: like.likes-1})
-    if(react === 'unlike') set_like({...like, unlikes: like.unlikes-1})
+    if(react === 'like') update({...poster, likes: poster?.likes-1})
+    if(react === 'unlike') update({...poster, unlikes: poster?.unlikes-1})
 
     setReact("none");
     fetch("/api/likes", {
@@ -91,13 +74,13 @@ const Like = ({ post_id, user_id, set_like, like }) => {
           </span>
         )}
         {react === "like" && (
-          <span className="me-2">
+          <span className="me-2  text-nowrap">
             <i className="fa-solid fa-thumbs-up"></i>
             Đã thích
           </span>
         )}
         {react === "unlike" && (
-          <span className="me-2">
+          <span className="me-2  text-nowrap">
             <i className="fa-solid fa-thumbs-down"></i>
             Đã không thích
           </span>

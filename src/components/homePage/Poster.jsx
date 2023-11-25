@@ -1,40 +1,56 @@
 import { host } from "../../env";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EditPoster from "./EditPoster";
 import { Link } from "react-router-dom";
 import Like from "../like/Like";
-import UsersLiked from "../like/UsersLiked";
+import PosterView from "../pages/PosterView";
+import LikeCount from "../like/LikeCount";
 const options = {
-  weekday: 'long', // Thứ
-  hour: 'numeric', // Giờ
-  minute: 'numeric', // Phút
-  day: 'numeric', // Ngày
-  month: 'long', // Tháng
-  year: 'numeric' // Năm
+  weekday: "long", // Thứ
+  hour: "numeric", // Giờ
+  minute: "numeric", // Phút
+  day: "numeric", // Ngày
+  month: "long", // Tháng
+  year: "numeric", // Năm
 };
 
-const formatter = new Intl.DateTimeFormat('vi-VN', options);
+const formatter = new Intl.DateTimeFormat("vi-VN", options);
 
 const Poster = (props) => {
   const [edit, setEdit] = useState(false);
-  const [poster, SetPoster] = useState(props.post)
-  const [like, setLike] = useState({ likes: poster.likes, unlikes: poster.unlikes })
-  const [usersLiked, setUsersLiked] = useState(false)
+  const [poster, SetPoster] = useState(props.post);
+  const [posterView, setPosterView] = useState(false);
+  const [react, setReact] = useState("none");
 
-  const closeUsersLiked = () => {
-    setUsersLiked(false)
-  }
+  useEffect(() => {
+    if (poster?._id) {
+      fetch("/api/likes", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ post_id: poster._id }),
+      })
+        .then((result) => result.json())
+        .then((data) => {
+          if (data?.data) {
+            setReact(data.data?.type);
+          }
+        });
+    }
+  }, [poster._id]);
+  const updateReact = (your_react) => {
+    setReact(your_react);
+  };
 
-  const setLikes = (likes) => {
-    setLike(likes)
-  }
+  const closePosterView = () => {
+    setPosterView(false);
+  };
 
   const closeEdit = () => {
     setEdit(false);
   };
   const updatePoster = (u_poster) => {
-    SetPoster(u_poster)
-  }
+    SetPoster(u_poster);
+  };
   const handleDeletePoster = () => {
     let confirm = window.confirm("xác nhận xóa poster?");
     if (confirm) {
@@ -118,7 +134,9 @@ const Poster = (props) => {
               <p className="mb-0 fw-semibold lh-sm">
                 {props.user?.user_fullname}
               </p>
-              <small className="text-secondary lh-sm">{formatter.format(new Date(poster?.time))}</small>
+              <small className="text-secondary lh-sm">
+                {formatter.format(new Date(poster?.time))}
+              </small>
             </div>
           </div>
           <div>
@@ -168,16 +186,29 @@ const Poster = (props) => {
             </div>
           </div>
           <div className="text-success">
-            <div className="d-flex justify-content-between">
-              <small style={{cursor: 'pointer'}} onClick={e => setUsersLiked(true)}>{like.likes} thích, {like.unlikes} không thích</small>
-              <small>{poster?.comments} bình luận, {poster?.shares} chia sẻ</small>
-            </div>
+            <LikeCount
+              like={poster.likes}
+              unlike={poster.unlikes}
+              comment={poster.comments}
+              share={poster.shares}
+              post_id={poster._id}
+            />
             <hr />
           </div>
           <div className="row gx-0 mb-2">
-            <Like user_id={poster?.user_id} post_id={poster?._id} set_like={setLikes} like={like} />
+            <Like
+              user_id={poster?.user_id}
+              post_id={poster?._id}
+              update={updatePoster}
+              react={react}
+              poster={poster}
+              setReact={updateReact}
+            />
             <div className="col">
-              <button className="btn btn-light w-100">
+              <button
+                className="btn btn-light w-100"
+                onClick={(e) => setPosterView(true)}
+              >
                 <span className="me-2">
                   <i className="fa-regular fa-comment"></i>
                 </span>
@@ -203,7 +234,15 @@ const Poster = (props) => {
           update={updatePoster}
         />
       )}
-      {usersLiked && <UsersLiked close={closeUsersLiked} post_id={poster._id} />}
+      {posterView && (
+        <PosterView
+          close={closePosterView}
+          post_id={poster._id}
+          update={updatePoster}
+          react={react}
+          setReact={updateReact}
+        ></PosterView>
+      )}
     </>
   );
 };
