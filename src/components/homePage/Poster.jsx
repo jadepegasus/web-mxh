@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Like from "../like/Like";
 import PosterView from "../pages/PosterView";
 import LikeCount from "../like/LikeCount";
+import WriteComment from "../comment/WriteComment";
 const options = {
   weekday: "long", // Thứ
   hour: "numeric", // Giờ
@@ -185,7 +186,7 @@ const Poster = (props) => {
               </button>
             </div>
           </div>
-          <div className="text-success">
+          <div className="text-secondary">
             <LikeCount
               like={poster.likes}
               unlike={poster.unlikes}
@@ -193,9 +194,14 @@ const Poster = (props) => {
               share={poster.shares}
               post_id={poster._id}
             />
-            <hr />
           </div>
-          <div className="row gx-0 mb-2">
+          <div
+            className="row gx-0 pt-1 pb-1"
+            style={{
+              borderBottom: "1px solid #ced0d4",
+              borderTop: "1px solid #ced0d4",
+            }}
+          >
             <Like
               user_id={poster?.user_id}
               post_id={poster?._id}
@@ -224,6 +230,7 @@ const Poster = (props) => {
               </button>
             </div>
           </div>
+          <WriteComment></WriteComment>
         </div>
       </div>
       {edit && (

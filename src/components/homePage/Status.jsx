@@ -47,7 +47,7 @@ const Status = (props) => {
           className="bg-light shadow-sm rounded-2 col-12"
           style={{ width: "95%", maxWidth: "562.4px", padding: "12px 16px" }}
         >
-          <div className="d-flex">
+          <div className="d-flex pb-3">
             <Link to={`/profile?id=${props.user?._id}`}>
               <div>
                 <img
@@ -72,10 +72,11 @@ const Status = (props) => {
                 props.user?.user_fullname + " ơi, bạn đang nghĩ gì thế?"}
             </button>
           </div>
-          <div className="text-success">
-            <hr />
-          </div>
-          <div className="row gx-0">
+          <div className="row gx-0 pt-2"
+            style={{
+              borderTop: "1px solid #ced0d4",
+            }}
+          >
             <div className="col">
               <button
                 className="btn btn-light w-100"
