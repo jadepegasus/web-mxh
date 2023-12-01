@@ -1,12 +1,21 @@
 import Status from "./Status";
 import Poster from "./Poster";
 import { useEffect, useState } from "react";
-import useFetch from "../../unity/useFetch";
 import Header from "./Header";
 import { socket } from "../../socket";
 
 const HomePage = () => {
-  const [user] = useFetch("/api/users/myinfo");
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    fetch('/api/users/myinfo')
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        setUser(data)
+      })
+  }, [])
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {

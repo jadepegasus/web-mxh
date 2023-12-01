@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import MyProfile from "./MyProfie";
-import useFetch from "../../unity/useFetch";
 import Header from "../homePage/Header";
 import StrangerProfile from "./StrangerProfile";
+import { useState, useEffect } from "react";
 
 function useQuery() {
   const { search } = useLocation();
@@ -13,8 +13,17 @@ function useQuery() {
 
 const Profile = () => {
   let query = useQuery();
-  const [dataLogin] = useFetch("/logined");
-
+  const [dataLogin, setDataLogin] = useState()
+  useEffect(() => {
+    fetch('/logined')
+      .then(res => {
+        return res.json()
+      })
+      .then(data => {
+        if (data.status === 'success')
+          setDataLogin(data)
+      })
+  }, [])
   return (
     <>
       <Header />
