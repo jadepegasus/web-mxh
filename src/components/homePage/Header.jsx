@@ -4,12 +4,14 @@ import SearchBoard from "./header/SearchBoard";
 import FriendBoard from "./header/FriendBoard";
 import NotificationBoard from "./header/NotificationBoard";
 import { socket } from "../../socket";
+import MessageBoard from "./header/MessageBoard";
 
 const Header = () => {
   const [search, setSearch] = useState(false);
   const [friend, setFriend] = useState(false);
   const [notification, setNotification] = useState(false);
   const [numNotify, setNumNotify] = useState(0);
+  const [message, setMessage] = useState(false);
 
   useEffect(() => {
     function onNotify(notify) {
@@ -38,6 +40,12 @@ const Header = () => {
     }
     setNotification(!notification);
     setFriend(false);
+  };
+  const handleClickMessage = () => {
+    if(!message) {
+      setMessage(0);
+    }
+    setMessage(!message);
   };
   return (
     <div className="w-100" style={{ height: "56px" }}>
@@ -71,9 +79,14 @@ const Header = () => {
             {friend && <FriendBoard />}
           </span>
 
-          <button className="btn btn-light border rounded-circle fs-5 me-2">
-            <i className="fa-brands fa-rocketchat"></i>
-          </button>
+          <span className="position-relative">
+            <button className="btn btn-light border rounded-circle fs-5 me-2"
+              onClick={handleClickMessage}
+            >
+              <i className="fa-brands fa-rocketchat"></i>
+            </button>
+            {message && <MessageBoard/>}
+          </span>
 
           <span className="position-relative">
             <button
@@ -81,11 +94,11 @@ const Header = () => {
               onClick={handleClickNotification}
             >
               <i className="fa-solid fa-bell"></i>
-              {!(numNotify > 0) ||
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {numNotify}+
-              </span>
-              }
+              {!(numNotify > 0) || (
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {numNotify}+
+                </span>
+              )}
             </button>
             {notification && <NotificationBoard />}
           </span>
