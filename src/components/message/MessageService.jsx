@@ -1,8 +1,10 @@
+import { host } from "../../env";
+
 const BASE_URL = '/api/message'; 
 
 export const MessageService = {
   getMessages: async (friendId) => {
-    const response = await fetch(`${BASE_URL}/get-messages/${friendId}`);
+    const response = await fetch(host+`${BASE_URL}/get-messages/${friendId}`, {credentials: 'include'});
     if (!response.ok) {
       throw new Error(`Error fetching messages: ${response.status}`);
     }
@@ -10,7 +12,8 @@ export const MessageService = {
   },
 
   sendMessage: async ({ receiver, content }) => {
-    const response = await fetch(`${BASE_URL}/send-message`, {
+    const response = await fetch(host+`${BASE_URL}/send-message`, {
+      credentials: 'include',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

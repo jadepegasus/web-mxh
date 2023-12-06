@@ -14,7 +14,8 @@ const Status = (props) => {
   const handleClickPost = (e) => {
     const formData = new FormData(formElement.current);
 
-    fetch("/api/posts", {
+    fetch(host+"/api/posts", {
+      credentials: 'include',
       method: "POST",
       body: formData,
     })

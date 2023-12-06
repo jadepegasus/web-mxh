@@ -19,7 +19,7 @@ const PosterView = ({ close, post_id, update, react, setReact }) => {
   const [poster, setPoster] = useState();
   useEffect(() => {
     if (post_id) {
-      fetch("/api/posts/" + post_id)
+      fetch(host+"/api/posts/" + post_id, {credentials: 'include'})
         .then((result) => result.json())
         .then((data) => {
           if (data.status === "success") {

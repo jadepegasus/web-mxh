@@ -25,7 +25,8 @@ const Poster = (props) => {
 
   useEffect(() => {
     if (poster?._id) {
-      fetch("/api/likes", {
+      fetch(host+"/api/likes", {
+        credentials:'include',
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ post_id: poster._id }),
@@ -55,7 +56,7 @@ const Poster = (props) => {
   const handleDeletePoster = () => {
     let confirm = window.confirm("xác nhận xóa poster?");
     if (confirm) {
-      fetch("/api/posts/" + poster?._id, { method: "DELETE" })
+      fetch(host+"/api/posts/" + poster?._id, { method: "DELETE", credentials: 'include' })
         .then((response) => {
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);

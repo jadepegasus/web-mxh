@@ -4,6 +4,7 @@ import { validateEmail, validatePassword } from "../unity/validate";
 import HomePage from "../components/homePage/HomePage";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
+import { host } from "../env";
 
 const SignUp = () => {
   const notify = useRef();
@@ -25,8 +26,9 @@ const SignUp = () => {
     user_birthday,
     user_gender
   ) => {
-    fetch("/signup", {
+    fetch(host+"/signup", {
       method: "POST",
+      credentials: 'include',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user_email,

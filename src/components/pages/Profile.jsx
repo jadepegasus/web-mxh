@@ -4,6 +4,7 @@ import MyProfile from "./MyProfie";
 import Header from "../homePage/Header";
 import StrangerProfile from "./StrangerProfile";
 import { useState, useEffect } from "react";
+import { host } from "../../env";
 
 function useQuery() {
   const { search } = useLocation();
@@ -15,7 +16,7 @@ const Profile = () => {
   let query = useQuery();
   const [dataLogin, setDataLogin] = useState()
   useEffect(() => {
-    fetch('/logined')
+    fetch(host+'/logined', {credentials: 'include'})
       .then(res => {
         return res.json()
       })

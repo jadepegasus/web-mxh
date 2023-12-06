@@ -3,12 +3,13 @@ import Info from "./myprofile/Info";
 import { useState, useEffect } from "react";
 import Poster from "../homePage/Poster";
 import ButtonFriend from "../friend/ButtonFriend";
+import { host } from "../../env";
 
 const StrangerProfile = ({ user_id, user_two_id }) => {
     const [user, setUser] = useState();
     const [posts, setPosts] = useState([])
     useEffect(() => {
-      fetch("/api/users/" + user_id)
+      fetch(host+"/api/users/" + user_id, {credentials: 'include'})
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") setUser(data.data);
@@ -16,7 +17,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
     }, [user_id]);
 
     useEffect(() => {
-          fetch("api/posts/user/" + user_id)
+          fetch(host+"api/posts/user/" + user_id, {credentials: 'include'})
             .then((res) => res.json())
             .then((data) => {
                 if (data.status === 'success')

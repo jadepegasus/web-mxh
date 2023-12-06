@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { host } from "../../../env";
 
 const EditInfo = (props) => {
   const [avatar, setAvatar] = useState();
@@ -14,7 +15,8 @@ const EditInfo = (props) => {
   const handleEditButton = () => {
     const formData = new FormData(formElement.current)
 
-    fetch('/api/users/' + props.user?._id, {
+    fetch(host+'/api/users/' + props.user?._id, {
+      credentials: 'include',
       method: 'PUT',
       body: formData
     })

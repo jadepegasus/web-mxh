@@ -4,6 +4,7 @@ import { validateEmail, validatePassword } from "../unity/validate";
 import HomePage from "../components/homePage/HomePage";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
+import { host } from "../env";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,8 +17,9 @@ const Login = () => {
   document.title = "Log in or Sign up";
 
   const handleLogin = useCallback((user_email, user_password) => {
-    fetch("/auth/password", {
+    fetch(host+"/auth/password", {
       method: "POST",
+      credentials: 'include',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_email, user_password }),
     })

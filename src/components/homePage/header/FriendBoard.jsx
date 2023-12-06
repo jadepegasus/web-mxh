@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import UserBar from "./UserBar";
+import { host } from "../../../env";
 const FriendBoard = ({ close }) => {
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-      fetch("/api/friends/getfriends")
+      fetch(host+"/api/friends/getfriends", {credentials: 'include'})
         .then((result) => result.json())
         .then((data) => {
           if (data.status === "success") setFriends(data.data.sort((a, b) => {

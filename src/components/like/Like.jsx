@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { host } from "../../env";
 
 const active = {
   top: "-100%",
@@ -34,13 +35,15 @@ const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
     if(type === 'like' && react ==='unlike') update({...poster, likes: poster?.likes+1, unlikes: poster?.unlikes-1})
 
 
-    await fetch("/api/likes", {
+    await fetch(host+"/api/likes", {
+      credentials: 'include',
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id }),
     });
 
-    fetch("/api/likes", {
+    fetch(host+"/api/likes", {
+      credentials: 'include',
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id, type }),
@@ -52,7 +55,8 @@ const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
     if(react === 'unlike') update({...poster, unlikes: poster?.unlikes-1})
 
     setReact("none");
-    fetch("/api/likes", {
+    fetch(host+"/api/likes", {
+      credentials: 'include',
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id }),

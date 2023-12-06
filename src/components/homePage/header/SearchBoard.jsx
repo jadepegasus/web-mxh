@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import UserBar from "./UserBar";
+import { host } from "../../../env";
 const SearchBoard = ({ close }) => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ const SearchBoard = ({ close }) => {
   }, []);
   useEffect(() => {
     if (text.length > 1) {
-      fetch("/api/users/search?search=" + text)
+      fetch(host+"/api/users/search?search=" + text, {credentials:'include'})
         .then((result) => result.json())
         .then((data) => {
           if (data.status === "success") setUsers(data.data);

@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import MessageBar from "./MessageBar";
 import ChatBox from "../../message/ChatBox";
+import { host } from "../../../env";
 
 const MessageBoard = ({ close }) => {
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
-    fetch("/api/messages")
+    fetch(host+"/api/messages", {credentials: 'include'})
       .then((result) => result.json())
       .then((data) => {
         if (data.status === "success") {

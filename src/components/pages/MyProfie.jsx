@@ -4,12 +4,13 @@ import Status from "../homePage/Status";
 import Cover from "./myprofile/Cover";
 import Info from "./myprofile/Info";
 import EditInfo from "./myprofile/EditInfo";
+import { host } from "../../env";
 const MyProfile= () => {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     
     useEffect(() => {
-      fetch("/api/users/myinfo")
+      fetch(host+"/api/users/myinfo", {credentials:'include'})
         .then((res) => res.json())
         .then((data) => setUser(data));
     }, []);

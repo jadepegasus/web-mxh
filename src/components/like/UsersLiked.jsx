@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import UserBar from "../homePage/header/UserBar";
+import { host } from "../../env";
 
 const UsersLiked = ({close, post_id}) => {
     const [reacts, setReacts] = useState([]);
@@ -8,7 +9,7 @@ const UsersLiked = ({close, post_id}) => {
     useEffect(() => {
         document.querySelector('button.nav-link').classList.add('active')
         if (post_id) {
-            fetch('/api/likes/' + post_id)
+            fetch(host+'/api/likes/' + post_id, {credentials: 'include'})
                 .then(result => result.json())
                 .then(data => {
                     if (data.status==='success') {

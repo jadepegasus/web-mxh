@@ -5,6 +5,7 @@ import FriendBoard from "./header/FriendBoard";
 import NotificationBoard from "./header/NotificationBoard";
 import { socket } from "../../socket";
 import MessageBoard from "./header/MessageBoard";
+import { host } from "../../env";
 
 const Header = () => {
   const [search, setSearch] = useState(false);
@@ -45,7 +46,7 @@ const Header = () => {
   };
 
   const logout = () => {
-    fetch("/logout")
+    fetch(host+"/logout", {credentials:'include'})
       .then((result) => result.json())
       .then((data) => {
         if (data.status === "success") window.location.href = "/";
@@ -74,31 +75,31 @@ const Header = () => {
               <i className="fa-solid fa-house"></i>
             </button>
           </Link>
-          <a
+          <button
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2"
             onClick={handleOnSearch}
           >
             <i className="fa-solid fa-magnifying-glass"></i>
-          </a>
+          </button>
         </div>
 
         <div className="flex-none">
-          <a
+          <button
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 relative"
             onClick={handleClickFriend}
           >
             <i className="fa-solid fa-user-group"></i>
             {friend && <FriendBoard />}
-          </a>
+          </button>
 
-          <a className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative" 
+          <button className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative" 
             onClick={handleClickMessage}
           >
             <i className="fa-brands fa-rocketchat"></i>
             {message && <MessageBoard/>}
-          </a>
+          </button>
 
-          <a
+          <button
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2 relative"
             onClick={handleClickNotification}
           >
@@ -109,7 +110,7 @@ const Header = () => {
             )}
             <i className="fa-solid fa-bell"></i>
             {notification && <NotificationBoard />}
-          </a>
+          </button>
 
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn w-12 rounded-full">
@@ -120,10 +121,10 @@ const Header = () => {
               className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Cài đặt </a>
+                <button>Cài đặt </button>
               </li>
               <li onClick={(e) => logout()}>
-                <a>Đăng xuất</a>
+                <button>Đăng xuất</button>
               </li>
             </ul>
           </div>

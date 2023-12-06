@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import NotifyBar from "./NotifyBar";
+import { host } from "../../../env";
 const NotificationBoard = ({ close }) => {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    fetch("/api/notifications")
+    fetch(host+ "/api/notifications", {credentials: 'include'})
       .then((result) => result.json())
       .then((data) => {
         if (data.status === "success")
@@ -16,7 +17,7 @@ const NotificationBoard = ({ close }) => {
       });
   }, []);
   const deleteAllNotifications = () => {
-    fetch("/api/notifications/delete")
+    fetch(host+ "/api/notifications/delete", {credentials: 'include'})
       .then((result) => result.json())
       .then((data) => {
         if (data.status === "success") setNotifications([])

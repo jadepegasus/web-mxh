@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import { host } from "../../../env";
 const NotifyBar = ({ notify, delNotify }) => {
     const handleDeleteNotify = () => {
-        fetch("/api/notifications/delete/"+notify._id)
+        fetch(host+"/api/notifications/delete/"+notify._id, {credentials:'include'})
         .then((result) => result.json())
         .then((data) => {
           if (data.status === "success") delNotify(notify)

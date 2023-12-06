@@ -5,11 +5,12 @@ import Login from "./Auth/Login";
 import HomePage from "./components/homePage/HomePage";
 import { useState } from "react";
 import { useEffect } from "react";
+import { host } from "./env";
 
 function App() {
   const [dataLogin, setDataLogin] = useState(false)
   useEffect(() => {
-    fetch('/logined')
+    fetch(host + '/logined', {credentials: 'include'})
       .then(res => {
         return res.json()
       })

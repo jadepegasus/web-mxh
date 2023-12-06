@@ -3,12 +3,13 @@ import Poster from "./Poster";
 import { useEffect, useState } from "react";
 import Header from "./Header";
 import { socket } from "../../socket";
+import { host } from "../../env";
 
 const HomePage = () => {
   const [user, setUser] = useState()
 
   useEffect(() => {
-    fetch('/api/users/myinfo')
+    fetch(host+'/api/users/myinfo', {credentials:'include'})
       .then(res => {
         return res.json()
       })
@@ -26,7 +27,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (user?.data) {
-      fetch("api/posts")
+      fetch(host+"/api/posts", {credentials:'include'})
         .then((res) => res.json())
         .then((data) => {
           setPosts(
