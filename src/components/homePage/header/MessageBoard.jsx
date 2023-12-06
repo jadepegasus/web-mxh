@@ -23,7 +23,7 @@ const MessageBoard = ({ close }) => {
   };
 
   return (
-    <div className="position-absolute z-3 p-3 shadow rounded-2" style={{ backgroundColor: "white", width: "20rem", right: "0px" }}>
+    <div className="position-absolute absolute z-3 p-3 shadow rounded-2" style={{ backgroundColor: "white", width: "20rem", right: "0px" }}>
       <div className="text-center fs-4">Danh sách tin nhắn</div>
       <hr />
 

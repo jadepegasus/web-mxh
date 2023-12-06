@@ -91,9 +91,12 @@ const Header = () => {
             {friend && <FriendBoard />}
           </a>
 
-          <button className="btn btn-light border rounded-circle fs-5 me-2">
+          <a className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative" 
+            onClick={handleClickMessage}
+          >
             <i className="fa-brands fa-rocketchat"></i>
-          </button>
+            {message && <MessageBoard/>}
+          </a>
 
           <a
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2 relative"
