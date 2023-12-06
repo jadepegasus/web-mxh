@@ -41,8 +41,9 @@ const SignUp = () => {
         console.log(data);
         setLogined(data?.status === "success");
         if (data?.status === "fail") {
-          showErr()
-          SetErr(data.message)};
+          showErr();
+          SetErr(data.message);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -183,7 +184,7 @@ const SignUp = () => {
                   className="select select-bordered w-1/3 mx-2 bg-transparent border rounded-md text-white border-white focus:text-blue-500"
                   title="day"
                   value={day}
-                  onChange={e => setDay(e.target.value)}
+                  onChange={(e) => setDay(e.target.value)}
                 >
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -211,9 +212,7 @@ const SignUp = () => {
                   <option value="24">24</option>
                   <option value="25">25</option>
                   <option value="26">26</option>
-                  <option value="27" selected="1">
-                    27
-                  </option>
+                  <option value="27">27</option>
                   <option value="28">28</option>
                   <option value="29">29</option>
                   <option value="30">30</option>
@@ -223,7 +222,7 @@ const SignUp = () => {
                   className="select select-bordered w-1/3 mx-2 bg-transparent border rounded-md text-white border-white focus:text-blue-500"
                   title="month"
                   value={month}
-                  onChange={e => setMonth(e.target.value)}
+                  onChange={(e) => setMonth(e.target.value)}
                 >
                   <option value="01">January</option>
                   <option value="02">February</option>
@@ -236,17 +235,15 @@ const SignUp = () => {
                   <option value="09">September</option>
                   <option value="10">October</option>
                   <option value="11">November</option>
-                  <option value="12" selected='1'>December</option>
+                  <option value="12">December</option>
                 </select>
                 <select
                   className="select select-bordered w-1/3 mx-2 bg-transparent border rounded-md text-white border-white focus:text-blue-500"
                   title="year"
                   value={year}
-                  onChange={e => setYear(e.target.value)}
+                  onChange={(e) => setYear(e.target.value)}
                 >
-                  <option value="2023" selected="1">
-                    2023
-                  </option>
+                  <option value="2023">2023</option>
                   <option value="2022">2022</option>
                   <option value="2021">2021</option>
                   <option value="2020">2020</option>
@@ -376,9 +373,9 @@ const SignUp = () => {
                     type="radio"
                     name="radio-7"
                     className="radio radio-info"
-                    value='male'
-                    checked={gender === 'male'}
-                    onChange={e => setGender(e.target.value)}
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value)}
                   />
                 </label>
                 <label className="flex w-1/3 border mx-2 py-1 cursor-pointer justify-evenly rounded-md">
@@ -387,9 +384,9 @@ const SignUp = () => {
                     type="radio"
                     name="radio-7"
                     className="radio radio-info"
-                    value='female'
-                    checked={gender === 'female'}
-                    onChange={e => setGender(e.target.value)}
+                    value="female"
+                    checked={gender === "female"}
+                    onChange={(e) => setGender(e.target.value)}
                   />
                 </label>
                 <label className="flex w-1/3 border mx-2 py-1 cursor-pointer justify-evenly rounded-md">
@@ -398,9 +395,9 @@ const SignUp = () => {
                     type="radio"
                     name="radio-7"
                     className="radio radio-info"
-                    value='other'
-                    checked={gender === 'other'}
-                    onChange={e => setGender(e.target.value)}
+                    value="other"
+                    checked={gender === "other"}
+                    onChange={(e) => setGender(e.target.value)}
                   />
                 </label>
               </div>
@@ -411,7 +408,7 @@ const SignUp = () => {
                 <button
                   className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-0 flex flex-row justify-center items-center gap-1 rounded-md"
                   type="submit"
-                  onClick={e => setLogin(true)}
+                  onClick={(e) => setLogin(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -429,7 +426,8 @@ const SignUp = () => {
                   </svg>{" "}
                   Login
                 </button>
-                <button className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-2 flex flex-row justify-center items-center gap-1 rounded-md disabled:text-gray-200 disabled:bg-gray-300/25"
+                <button
+                  className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-2 flex flex-row justify-center items-center gap-1 rounded-md disabled:text-gray-200 disabled:bg-gray-300/25"
                   disabled={
                     !validateEmail(email) || !validatePassword(password)
                   }

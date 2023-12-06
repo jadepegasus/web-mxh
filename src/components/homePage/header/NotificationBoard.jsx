@@ -28,7 +28,7 @@ const NotificationBoard = ({ close }) => {
   }
   return (
     <div
-      className="position-absolute z-3 p-3 shadow rounded-2"
+      className="position-absolute z-3 p-3 shadow rounded-2 absolute"
       style={{ backgroundColor: "white", width: "20rem", right: "0px" }}
     >
       <div className="text-center fs-4">Danh sách thông báo</div>

@@ -49,7 +49,7 @@ const HomePage = () => {
   return (
     <>
       <Header></Header>
-      <div className="bg-secondary bg-opacity-10 pb-5">
+      <div className="bg-gray-500/10">
         <Status user={user?.data} setPost={addPosts} />
         {posts.map((post) => (
           <Poster

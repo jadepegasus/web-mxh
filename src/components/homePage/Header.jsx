@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBoard from "./header/SearchBoard";
 import FriendBoard from "./header/FriendBoard";
 import NotificationBoard from "./header/NotificationBoard";
@@ -10,15 +10,18 @@ const Header = () => {
   const [friend, setFriend] = useState(false);
   const [notification, setNotification] = useState(false);
   const [numNotify, setNumNotify] = useState(0);
+  const notifyToast = useRef()
 
   useEffect(() => {
     function onNotify(notify) {
-      setNumNotify(pre => (pre + 1))
-      document.title = notify
+      setNumNotify((pre) => pre + 1);
+      document.title = notify;
+      document.getElementById('notifyMessage').innerHTML = notify
+      showNotify()
     }
     socket.on("notify", onNotify);
     return () => {
-      console.log('out socket')
+      console.log("out socket");
       socket.off("notify", onNotify);
     };
   }, []);
@@ -33,69 +36,94 @@ const Header = () => {
   const handleClickNotification = () => {
     if (!notification) {
       setNumNotify(0);
-      document.title = 'wel-come'
-
+      document.title = "wel-come";
     }
     setNotification(!notification);
     setFriend(false);
   };
+
+  const logout = () => {
+    fetch("/logout")
+      .then((result) => result.json())
+      .then((data) => {
+        if (data.status === "success") window.location.href = "/";
+      });
+  };
+
+  const showNotify = () => {
+    notifyToast.current?.classList?.remove("opacity-0");
+    setTimeout(() => {
+      notifyToast.current?.classList.add("opacity-0");
+    }, 4000);
+  };
+
   return (
-    <div className="w-100" style={{ height: "56px" }}>
-      <div
-        className="shadow-sm position-fixed d-flex align-items-center p-1 justify-content-between w-100 bg-light z-3"
-        style={{ fontSize: "2rem" }}
-      >
-        <div>
+    <div className="h-14">
+      <div className="navbar bg-base-100 fixed shadow-sm">
+        <div className="flex-1">
           <Link to="/">
-            <button className="btn btn-light border rounded-circle fs-5 me-2 ms-3">
+            <button className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12">
               <i className="fa-solid fa-house"></i>
             </button>
           </Link>
-
-          <button
-            className="btn btn-light border rounded-circle fs-5 me-2"
+          <a
+            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2"
             onClick={handleOnSearch}
           >
             <i className="fa-solid fa-magnifying-glass"></i>
-          </button>
+          </a>
         </div>
 
-        <div>
-          <span className="postion-relative">
-            <button
-              className="btn btn-light border rounded-circle fs-5 me-2"
-              onClick={handleClickFriend}
-            >
-              <i className="fa-solid fa-user-group"></i>
-            </button>
+        <div className="flex-none">
+          <a
+            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 relative"
+            onClick={handleClickFriend}
+          >
+            <i className="fa-solid fa-user-group"></i>
             {friend && <FriendBoard />}
-          </span>
+          </a>
 
-          <button className="btn btn-light border rounded-circle fs-5 me-2">
+          <a className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2">
             <i className="fa-brands fa-rocketchat"></i>
-          </button>
+          </a>
 
-          <span className="position-relative">
-            <button
-              className="btn btn-light border rounded-circle fs-5 me-2 position-relative"
-              onClick={handleClickNotification}
-            >
-              <i className="fa-solid fa-bell"></i>
-              {!(numNotify > 0) ||
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {numNotify}+
-              </span>
-              }
-            </button>
+          <a
+            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2 relative"
+            onClick={handleClickNotification}
+          >
+            {!(numNotify > 0) || (
+              <div className="badge badge-primary badge-sm !absolute -end-3 !-top-1 animate-pulse bg-red-500 border-none">
+                +{numNotify}
+              </div>
+            )}
+            <i className="fa-solid fa-bell"></i>
             {notification && <NotificationBoard />}
-          </span>
+          </a>
 
-          <button className="btn btn-light border rounded-circle fs-5 me-3">
-            <i className="fa-solid fa-bars"></i>
-          </button>
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn w-12 rounded-full">
+              <i className="fa-solid fa-bars"></i>
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a>Cài đặt </a>
+              </li>
+              <li onClick={(e) => logout()}>
+                <a>Đăng xuất</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        {search && <SearchBoard close={handleOnSearch} />}
+      </div>
+      <div ref={notifyToast} className="toast toast-end pointer-events-none transition ease-in-out duration-1000 bottom-0 right-0 opacity-0">
+        <div className="alert alert-info">
+          <span id='notifyMessage'>New mail arrived.</span>
         </div>
       </div>
-      {search && <SearchBoard close={handleOnSearch} />}
     </div>
   );
 };

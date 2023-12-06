@@ -14,7 +14,7 @@ const FriendBoard = ({ close }) => {
   }, []);
   return (
     <div
-      className="position-absolute z-3 p-3 shadow rounded-2"
+      className="position-absolute z-3 p-3 shadow rounded-2 absolute"
       style={{ backgroundColor: "white", right:'120px' }}
     >
       <div className="text-center fs-4">
