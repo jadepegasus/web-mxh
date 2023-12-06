@@ -17,7 +17,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
     }, [user_id]);
 
     useEffect(() => {
-          fetch(host+"api/posts/user/" + user_id, {credentials: 'include'})
+          fetch(host+"/api/posts/user/" + user_id, {credentials: 'include'})
             .then((res) => res.json())
             .then((data) => {
                 if (data.status === 'success')

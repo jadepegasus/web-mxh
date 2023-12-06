@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { socket } from "../../socket";
+import { host } from "../../env";
 
 const ButtonFriend = ({ user_one_id, user_two_id }) => {
   const [status, setStatus] = useState();
   const handleAddFriend = () => {
     if (window.confirm("xác nhận kết bạn")) {
-      fetch("/api/friends", {
+      fetch(host+"/api/friends", {
+        credentials: 'include',
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_one_id, user_two_id }),
@@ -23,7 +25,8 @@ const ButtonFriend = ({ user_one_id, user_two_id }) => {
 
   const handleDeleteFriend = () => {
     if (window.confirm("xác nhận hủy kết bạn")) {
-      fetch("/api/friends/delete", {
+      fetch(host+"/api/friends/delete", {
+        credentials: 'include',
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_one_id, user_two_id }),
@@ -38,7 +41,8 @@ const ButtonFriend = ({ user_one_id, user_two_id }) => {
 
   useEffect(() => {
     if (user_one_id && user_two_id) {
-      fetch("/api/friends/check", {
+      fetch(host+"/api/friends/check", {
+        credentials: 'include',
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_one_id, user_two_id }),
