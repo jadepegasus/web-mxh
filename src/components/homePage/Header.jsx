@@ -4,6 +4,7 @@ import SearchBoard from "./header/SearchBoard";
 import FriendBoard from "./header/FriendBoard";
 import NotificationBoard from "./header/NotificationBoard";
 import { socket } from "../../socket";
+import MessageBoard from "./header/MessageBoard";
 
 const Header = () => {
   const [search, setSearch] = useState(false);
@@ -11,6 +12,7 @@ const Header = () => {
   const [notification, setNotification] = useState(false);
   const [numNotify, setNumNotify] = useState(0);
   const notifyToast = useRef()
+  const [message, setMessage] = useState(false);
 
   useEffect(() => {
     function onNotify(notify) {
@@ -57,6 +59,12 @@ const Header = () => {
     }, 4000);
   };
 
+  const handleClickMessage = () => {
+    if(!message) {
+      setMessage(0);
+    }
+    setMessage(!message);
+  };
   return (
     <div className="h-14">
       <div className="navbar bg-base-100 fixed shadow-sm">
@@ -83,9 +91,9 @@ const Header = () => {
             {friend && <FriendBoard />}
           </a>
 
-          <a className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2">
+          <button className="btn btn-light border rounded-circle fs-5 me-2">
             <i className="fa-brands fa-rocketchat"></i>
-          </a>
+          </button>
 
           <a
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2 relative"
