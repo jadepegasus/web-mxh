@@ -1,25 +1,32 @@
-import React, { useState, useCallback } from "react";
-import SignUp from "./Signup";
+import React, { useState, useCallback, useEffect } from "react";
 import { validateEmail, validatePassword } from "../unity/validate";
-import HomePage from "../components/homePage/HomePage";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
 import { host } from "../env";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(false);
-  const [signup, setSignup] = useState(false);
   const [err, setErr] = useState("");
   const notify = useRef();
 
-  document.title = "Log in or Sign up";
+  useEffect(() => {
+    fetch(host + "/logined", { credentials: "include" })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.status === "success") setLogin(true);
+      });
+  }, []);
+  document.title = "Log in";
 
   const handleLogin = useCallback((user_email, user_password) => {
-    fetch(host+"/auth/password", {
+    fetch(host + "/auth/password", {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_email, user_password }),
     })
@@ -47,7 +54,6 @@ const Login = () => {
     }, 4000);
   };
 
-  if (signup) return <SignUp />;
   if (!login)
     return (
       <div
@@ -175,9 +181,9 @@ const Login = () => {
                     </svg>{" "}
                     Login
                   </button>
-                  <button
+                  <Link
+                    to="/signup"
                     className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-2 flex flex-row justify-center items-center gap-1 rounded-md"
-                    onClick={() => setSignup(true)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +200,7 @@ const Login = () => {
                       />
                     </svg>{" "}
                     Sign-up
-                  </button>
+                  </Link>
                 </div>
                 <div className="my-2 flex flex-row justify-center">
                   <span className="absolute bg-white rounded-full px-4">
@@ -258,7 +264,8 @@ const Login = () => {
         </div>
       </div>
     );
-  return <HomePage></HomePage>;
+    window.location.href='/homepage'
+    return <></>
 };
 
 export default Login;

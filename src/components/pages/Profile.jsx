@@ -13,6 +13,7 @@ function useQuery() {
 }
 
 const Profile = () => {
+  document.title="Profile"
   let query = useQuery();
   const [dataLogin, setDataLogin] = useState()
   useEffect(() => {

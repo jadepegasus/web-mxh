@@ -4,19 +4,23 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { socket } from "../../socket";
 import { host } from "../../env";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const [user, setUser] = useState()
+  document.title = "Home Page";
+  const [user, setUser] = useState();
+  const [logined, setLogined] = useState(true);
 
   useEffect(() => {
-    fetch(host+'/api/users/myinfo', {credentials:'include'})
-      .then(res => {
-        return res.json()
+    fetch(host + "/api/users/myinfo", { credentials: "include" })
+      .then((res) => {
+        return res.json();
       })
-      .then(data => {
-        setUser(data)
-      })
-  }, [])
+      .then((data) => {
+        setUser(data);
+        if (data.status === "fail") setLogined(false);
+      });
+  }, []);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -27,7 +31,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (user?.data) {
-      fetch(host+"/api/posts", {credentials:'include'})
+      fetch(host + "/api/posts", { credentials: "include" })
         .then((res) => res.json())
         .then((data) => {
           setPosts(
@@ -46,23 +50,25 @@ const HomePage = () => {
   const deletePost = (post) => {
     setPosts(posts.filter((value) => value._id !== post._id));
   };
-
-  return (
-    <>
-      <Header></Header>
-      <div className="bg-gray-500/10">
-        <Status user={user?.data} setPost={addPosts} />
-        {posts.map((post) => (
-          <Poster
-            key={post?._id}
-            post={post}
-            user={post.user}
-            readonly={(user?.data?._id !== post.user?._id)}
-            delete={deletePost}
-          />
-        ))}
-      </div>
-    </>
-  );
+  if (logined)
+    return (
+      <>
+        <Header></Header>
+        <div className="bg-gray-500/10">
+          <Status user={user?.data} setPost={addPosts} />
+          {posts.map((post) => (
+            <Poster
+              key={post?._id}
+              post={post}
+              user={post.user}
+              readonly={user?.data?._id !== post.user?._id}
+              delete={deletePost}
+            />
+          ))}
+        </div>
+      </>
+    );
+    window.location.href='/'
+    return <></>
 };
 export default HomePage;

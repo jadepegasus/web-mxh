@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Login from "./Login";
 import { validateEmail, validatePassword } from "../unity/validate";
-import HomePage from "../components/homePage/HomePage";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
 import { host } from "../env";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  document.title='Sign up'
   const notify = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +15,6 @@ const SignUp = () => {
   const [month, setMonth] = useState("2");
   const [year, setYear] = useState("2002");
   const [gender, setGender] = useState("other");
-  const [login, setLogin] = useState(false);
   const [logined, setLogined] = useState(false);
   const [err, SetErr] = useState("");
 
@@ -56,8 +55,10 @@ const SignUp = () => {
     }, 4000);
   };
 
-  if (login) return <Login />;
-  if (logined) return <HomePage />;
+  if (logined) {
+    window.location.href='/homepage'
+    return <></>
+  };
   return (
     <div
       className="min-h-screen w-screen  bg-cover bg-black"
@@ -407,10 +408,9 @@ const SignUp = () => {
                 <a href="./">Forgot password</a>
               </div>
               <div className="w-full flex flex-row gap-2">
-                <button
+                <Link to='/'
                   className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-0 flex flex-row justify-center items-center gap-1 rounded-md"
                   type="submit"
-                  onClick={(e) => setLogin(true)}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -427,7 +427,7 @@ const SignUp = () => {
                     />
                   </svg>{" "}
                   Login
-                </button>
+                </Link>
                 <button
                   className="border border-white hover:bg-white hover:text-black duration-100 ease-in-out w-6/12 text-white p-2 flex flex-row justify-center items-center gap-1 rounded-md disabled:text-gray-200 disabled:bg-gray-300/25"
                   disabled={

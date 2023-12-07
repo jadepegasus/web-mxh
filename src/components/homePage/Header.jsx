@@ -70,7 +70,7 @@ const Header = () => {
     <div className="h-14">
       <div className="navbar bg-base-100 fixed shadow-sm z-50">
         <div className="flex-1">
-          <Link to="/">
+          <Link to="/homepage">
             <button className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12">
               <i className="fa-solid fa-house"></i>
             </button>
