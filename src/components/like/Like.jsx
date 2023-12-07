@@ -1,49 +1,37 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { host } from "../../env";
 
-const active = {
-  top: "-100%",
-  transition: "opacity 1s ease-in-out",
-  opacity: "1",
-  width: "100%",
-};
-const unactive = {
-  opacity: "0",
-  pointerEvents: "none",
-  height: "0",
-  margin: "0",
-  padding: "0",
-  border: "0",
-  overflow: "hidden",
-};
-
-const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+const Like = ({ post_id, user_id, update, poster, react, setReact }) => {
+  const reactIcon = useRef()
 
   const handleReact = async (type) => {
     setReact(type);
-    if(type === 'like' && react === 'none') update({...poster, likes: poster?.likes+1})
-    if(type === 'unlike' && react ==='none') update({...poster, unlikes: poster?.unlikes+1})
-    if(type === 'unlike' && react ==='like') update({...poster, likes: poster?.likes-1, unlikes: poster?.unlikes+1})
-    if(type === 'like' && react ==='unlike') update({...poster, likes: poster?.likes+1, unlikes: poster?.unlikes-1})
+    if (type === "like" && react === "none")
+      update({ ...poster, likes: poster?.likes + 1 });
+    if (type === "unlike" && react === "none")
+      update({ ...poster, unlikes: poster?.unlikes + 1 });
+    if (type === "unlike" && react === "like")
+      update({
+        ...poster,
+        likes: poster?.likes - 1,
+        unlikes: poster?.unlikes + 1,
+      });
+    if (type === "like" && react === "unlike")
+      update({
+        ...poster,
+        likes: poster?.likes + 1,
+        unlikes: poster?.unlikes - 1,
+      });
 
-
-    await fetch(host+"/api/likes", {
-      credentials: 'include',
+    await fetch(host + "/api/likes", {
+      credentials: "include",
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id }),
     });
 
-    fetch(host+"/api/likes", {
-      credentials: 'include',
+    fetch(host + "/api/likes", {
+      credentials: "include",
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id, type }),
@@ -51,12 +39,12 @@ const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
   };
 
   const handleUnReact = () => {
-    if(react === 'like') update({...poster, likes: poster?.likes-1})
-    if(react === 'unlike') update({...poster, unlikes: poster?.unlikes-1})
+    if (react === "like") update({ ...poster, likes: poster?.likes - 1 });
+    if (react === "unlike") update({ ...poster, unlikes: poster?.unlikes - 1 });
 
     setReact("none");
-    fetch(host+"/api/likes", {
-      credentials: 'include',
+    fetch(host + "/api/likes", {
+      credentials: "include",
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ post_id, user_id }),
@@ -64,57 +52,60 @@ const Like = ({ post_id, user_id, update, poster, react, setReact}) => {
   };
 
   return (
-    <div className="col">
-      <div
-        className="btn btn-light w-100 position-relative"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleUnReact}
-      >
-        {react === "none" && (
-          <span className="me-2">
+    <div
+      className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 relative hover:text-blue-500"
+      onMouseEnter={e => {reactIcon.current?.classList?.remove('hidden')}}
+      onMouseLeave={e => {reactIcon.current?.classList?.add('hidden')}}
+      onClick={handleUnReact}
+    >
+      {react === "none" && (
+        <>
+          <span className="group-hover:animate-shaking-like 3xl:text-[30px] text-[calc(30px/6*5)]">
             <i className="fa-regular fa-thumbs-up"></i>
-            Thích
           </span>
-        )}
-        {react === "like" && (
-          <span className="me-2  text-nowrap">
+          <span>Thích</span>
+        </>
+      )}
+      {react === "like" && (
+        <>
+          <span className="group-hover:animate-shaking-like 3xl:text-[30px] text-[calc(30px/6*5)] text-blue-500">
             <i className="fa-solid fa-thumbs-up"></i>
-            Đã thích
           </span>
-        )}
-        {react === "unlike" && (
-          <span className="me-2  text-nowrap">
+          <span className="text-blue-500">Đã thích</span>
+        </>
+      )}
+      {react === "unlike" && (
+        <>
+          <span className="group-hover:animate-shaking-like 3xl:text-[30px] text-[calc(30px/6*5)] text-blue-500">
             <i className="fa-solid fa-thumbs-down"></i>
-            Đã không thích
           </span>
-        )}
-        <div
-          className="position-absolute"
-          style={isHovered ? active : unactive}
-        >
-          <button
-            className="btn btn-light w-50"
+          <span className="text-blue-500">Không thích</span>
+        </>
+      )}
+      <div className="bg-white 3xl:h-[42px] h-[calc(42px/6*5)] border-blue-500 border-[1px] rounded-[10px] 3xl:w-[238px] w-[calc(238px/6*5)] px-3 z-10 absolute -translate-y-full justify-center animate-slip-to-top hidden"
+      ref={reactIcon}
+      >
+        <div className="flex flex-row items-center h-full w-full justify-evenly">
+          <div
+            className="transition-all ease-linear hover:scale-[1.75] 3xl:text-[30px] text-[calc(30px/6*5)] text-blue-500"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
               handleReact("like");
+              reactIcon.current?.classList?.add('hidden')
             }}
           >
-            <span className="me-2">
-              <i className="fa-solid fa-thumbs-up"></i>
-            </span>
-          </button>
-          <button
-            className="btn btn-light w-50"
+            <i className="fa-solid fa-thumbs-up"></i>
+          </div>
+          <div
+            className="transition-all ease-linear hover:scale-[1.75] 3xl:text-[30px] text-[calc(30px/6*5)] text-blue-500"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
               handleReact("unlike");
+              reactIcon.current?.classList?.add('hidden')
             }}
           >
-            <span className="me-2">
-              <i className="fa-solid fa-thumbs-down"></i>
-            </span>
-          </button>
+            <i className="fa-solid fa-thumbs-down"></i>
+          </div>
         </div>
       </div>
     </div>

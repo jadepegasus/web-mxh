@@ -22,7 +22,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
             .then((data) => {
                 if (data.status === 'success')
                 setPosts(
-                  data.data.sort((a, b) => {
+                  data?.data?.sort((a, b) => {
                     return a.time < b.time ? 1 : -1;
                   })
                 )

@@ -9,7 +9,9 @@ import { host } from "./env";
 
 function App() {
   const [dataLogin, setDataLogin] = useState(false)
+  console.log(dataLogin)
   useEffect(() => {
+    console.log('effect')
     fetch(host + '/logined', {credentials: 'include'})
       .then(res => {
         return res.json()
@@ -21,7 +23,7 @@ function App() {
   }, [])
   return (
     <>
-      <Routes>
+      <Routes>{console.log('test')}
         <Route path="/" element={dataLogin ? <HomePage /> : <Login />}></Route>
         <Route path="/profile" element={<Profile />} />
       </Routes>

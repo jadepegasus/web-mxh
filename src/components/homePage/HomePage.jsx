@@ -31,7 +31,7 @@ const HomePage = () => {
         .then((res) => res.json())
         .then((data) => {
           setPosts(
-            data.data.sort((a, b) => {
+            data?.data?.sort((a, b) => {
               return a.time < b.time ? 1 : -1;
             })
           );

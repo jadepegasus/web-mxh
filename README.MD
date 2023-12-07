@@ -10,3 +10,9 @@
 -src/env.js: set địa chỉ backend
 - thiếu chức năng: nhắn tin, cmt, like, follow
 - LƯU Ý: chạy back end trc, + front end sau
+
+
+COMMAND: 
+-build css: npm run build:css
+-build:  npm run build
+-dev: npm start
