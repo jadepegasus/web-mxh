@@ -104,6 +104,29 @@ const EditPoster = (props) => {
             onChange={(e) => setText(e.target.value)}
           ></textarea>
 
+          <div>
+            {prevImages.map((picture, index) => {
+              return (
+                <span
+                  className="position-relative d-inline-block w-50"
+                  key={index}
+                >
+                  <button
+                    type="button"
+                    className="btn-close position-absolute end-0 bg-secondary"
+                    aria-label="Close"
+                    onClick={(e) => removeImage(picture)}
+                  ></button>
+                  <img
+                    alt="img-post"
+                    src={`${host}/api/images/${picture}`}
+                    className="w-100"
+                  />
+                </span>
+              );
+            })}
+          </div>
+
           <label htmlFor="formFileEditMultiple" className="btn btn-light w-100">
             <span className="me-2">
               <img
