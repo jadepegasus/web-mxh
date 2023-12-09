@@ -9,11 +9,12 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
     const [user, setUser] = useState();
     const [posts, setPosts] = useState([])
     useEffect(() => {
-      fetch(host+"/api/users/" + user_id, {credentials: 'include'})
+      const fet = fetch(host+"/api/users/" + user_id, {credentials: 'include'})
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") setUser(data.data);
         });
+      return fet.re
     }, [user_id]);
 
     useEffect(() => {
@@ -34,10 +35,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
   if (user)
     return (
       <>
-        <Cover user={user}  readonly={true}/>
-        <ButtonFriend user_one_id={user_two_id}
-        user_two_id={user_id}
-        />
+        <Cover user={user} user_one_id={user_two_id} user_two_id={user_id} readonly={true}/>
         <Info user={user}></Info> 
         {posts.map((post) => (
           <Poster

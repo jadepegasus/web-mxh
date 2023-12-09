@@ -6,16 +6,7 @@ import Like from "../like/Like";
 import PosterView from "../pages/PosterView";
 import LikeCount from "../like/LikeCount";
 import WriteComment from "../comment/WriteComment";
-const options = {
-  weekday: "long", // Thứ
-  hour: "numeric", // Giờ
-  minute: "numeric", // Phút
-  day: "numeric", // Ngày
-  month: "long", // Tháng
-  year: "numeric", // Năm
-};
-
-const formatter = new Intl.DateTimeFormat("vi-VN", options);
+import formatter from "../../unity/formatTime";
 
 const Poster = (props) => {
   const [edit, setEdit] = useState(false);
@@ -84,7 +75,7 @@ const Poster = (props) => {
           <div className="d-flex relative px-4 pt-4">
             {props.readonly || (
               <details className="dropdown dropdown-end absolute end-0 top-0">
-                <summary className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0">
+                <summary className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0 shadow-none">
                   <svg
                     viewBox="0 0 20 20"
                     width="16"

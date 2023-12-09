@@ -13,6 +13,7 @@ const Status = (props) => {
 
   const handleClickPost = (e) => {
     const formData = new FormData(formElement.current);
+    formData.append('status', status)
 
     fetch(host+"/api/posts", {
       credentials: 'include',
@@ -78,7 +79,7 @@ const Status = (props) => {
                 document.getElementById("addStatusModal")?.showModal();
               }}
             >
-              <span className="me-2">
+              <span className="me-2 hover:animate-shaking-like">
                 <img
                   height="24"
                   width="24"
@@ -94,7 +95,7 @@ const Status = (props) => {
                 document.getElementById("addStatusModal")?.showModal();
               }}
             >
-              <span className="me-2">
+              <span className="me-2 hover:animate-shaking-like">
                 <img
                   height="24"
                   width="24"
@@ -110,7 +111,7 @@ const Status = (props) => {
                 document.getElementById("addStatusModal")?.showModal();
               }}
             >
-              <span className="me-2">
+              <span className="me-2 hover:animate-shaking-like">
                 <img
                   height="24"
                   width="24"
@@ -172,12 +173,6 @@ const Status = (props) => {
                     : ""}
                 </div>
               </div>
-              <textarea
-                name="status"
-                className="hidden"
-                rows="5"
-                defaultValue={status}
-              ></textarea>
               {Array.from(images).length ? (
                 <div className="flex justify-center">
                   <div className="border-x-2 border-t-2 w-4/5 px-4 py-2 rounded-tl-2xl rounded-tr-2xl">

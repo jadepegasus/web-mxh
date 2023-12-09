@@ -12,15 +12,15 @@ const Header = () => {
   const [friend, setFriend] = useState(false);
   const [notification, setNotification] = useState(false);
   const [numNotify, setNumNotify] = useState(0);
-  const notifyToast = useRef()
+  const notifyToast = useRef();
   const [message, setMessage] = useState(false);
 
   useEffect(() => {
     function onNotify(notify) {
       setNumNotify((pre) => pre + 1);
       document.title = notify;
-      document.getElementById('notifyMessage').innerHTML = notify
-      showNotify()
+      document.getElementById("notifyMessage").innerHTML = notify;
+      showNotify();
     }
     socket.on("notify", onNotify);
     return () => {
@@ -46,7 +46,7 @@ const Header = () => {
   };
 
   const logout = () => {
-    fetch(host+"/logout", {credentials:'include'})
+    fetch(host + "/logout", { credentials: "include" })
       .then((result) => result.json())
       .then((data) => {
         if (data.status === "success") window.location.href = "/";
@@ -61,60 +61,65 @@ const Header = () => {
   };
 
   const handleClickMessage = () => {
-    if(!message) {
+    if (!message) {
       setMessage(0);
     }
     setMessage(!message);
   };
   return (
     <div className="h-14">
-      <div className="navbar bg-base-100 fixed shadow-sm z-50">
+      <div className="navbar bg-base-100 fixed shadow-sm z-40">
         <div className="flex-1">
           <Link to="/homepage">
             <button className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12">
-              <i className="fa-solid fa-house"></i>
+              <i className="fa-solid fa-house hover:animate-shaking-like"></i>
             </button>
           </Link>
           <button
             className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2"
             onClick={handleOnSearch}
           >
-            <i className="fa-solid fa-magnifying-glass"></i>
+            <i className="fa-solid fa-magnifying-glass hover:animate-shaking-like"></i>
           </button>
         </div>
 
         <div className="flex-none">
-          <button
-            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 relative"
-            onClick={handleClickFriend}
-          >
-            <i className="fa-solid fa-user-group"></i>
+          <div className="relative">
+            <button
+              className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12"
+              onClick={handleClickFriend}
+            >
+              <i className="fa-solid fa-user-group hover:animate-shaking-like"></i>
+            </button>
             {friend && <FriendBoard />}
-          </button>
+          </div>
 
-          <button className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative" 
+          <button
+            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative"
             onClick={handleClickMessage}
           >
-            <i className="fa-brands fa-rocketchat"></i>
-            {message && <MessageBoard/>}
+            <i className="fa-brands fa-rocketchat hover:animate-shaking-like"></i>
+            {message && <MessageBoard />}
           </button>
 
-          <button
-            className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2 relative"
-            onClick={handleClickNotification}
-          >
-            {!(numNotify > 0) || (
-              <div className="badge badge-primary badge-sm !absolute -end-3 !-top-1 animate-pulse bg-red-500 border-none">
-                +{numNotify}
-              </div>
-            )}
-            <i className="fa-solid fa-bell"></i>
+          <div className="relative">
+            <button
+              className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 me-2"
+              onClick={handleClickNotification}
+            >
+              {!(numNotify > 0) || (
+                <div className="badge badge-primary badge-sm !absolute -end-3 !-top-1 animate-pulse bg-red-500 border-none z-50">
+                  +{numNotify}
+                </div>
+              )}
+              <i className="fa-solid fa-bell hover:animate-shaking-like"></i>
+            </button>
             {notification && <NotificationBoard />}
-          </button>
+          </div>
 
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn w-12 rounded-full">
-              <i className="fa-solid fa-bars"></i>
+              <i className="fa-solid fa-bars hover:animate-shaking-like"></i>
             </div>
             <ul
               tabIndex={0}
@@ -131,9 +136,12 @@ const Header = () => {
         </div>
         {search && <SearchBoard close={handleOnSearch} />}
       </div>
-      <div ref={notifyToast} className="toast toast-end pointer-events-none transition ease-in-out duration-1000 bottom-0 right-0 opacity-0">
+      <div
+        ref={notifyToast}
+        className="toast toast-end pointer-events-none transition ease-in-out duration-1000 bottom-0 right-0 opacity-0 z-50"
+      >
         <div className="alert alert-info">
-          <span id='notifyMessage'>New mail arrived.</span>
+          <span id="notifyMessage">New mail arrived.</span>
         </div>
       </div>
     </div>

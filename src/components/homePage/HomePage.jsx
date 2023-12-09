@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { socket } from "../../socket";
 import { host } from "../../env";
-import { Link } from "react-router-dom";
 
 const HomePage = () => {
   document.title = "Home Page";

@@ -53,7 +53,7 @@ const Like = ({ post_id, user_id, update, poster, react, setReact }) => {
 
   return (
     <div
-      className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 relative hover:text-blue-500"
+      className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 relative hover:text-blue-500 group"
       onMouseEnter={e => {reactIcon.current?.classList?.remove('hidden')}}
       onMouseLeave={e => {reactIcon.current?.classList?.add('hidden')}}
       onClick={handleUnReact}

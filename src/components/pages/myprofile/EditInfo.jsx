@@ -4,208 +4,173 @@ import { host } from "../../../env";
 const EditInfo = (props) => {
   const [avatar, setAvatar] = useState();
   const [cover, setCover] = useState();
-  const formElement = useRef()
-  const closeButton = useRef()
+  const formElement = useRef();
+  const closeButton = useRef();
 
   const getbirthday = () => {
-    let index = props.user?.user_birthday?.indexOf("T")
-    return props.user?.user_birthday?.slice(0, index)
-  }
+    let index = props.user?.user_birthday?.indexOf("T");
+    return props.user?.user_birthday?.slice(0, index);
+  };
 
   const handleEditButton = () => {
-    const formData = new FormData(formElement.current)
+    const formData = new FormData(formElement.current);
 
-    fetch(host+'/api/users/' + props.user?._id, {
-      credentials: 'include',
-      method: 'PUT',
-      body: formData
+    fetch(host + "/api/users/" + props.user?._id, {
+      credentials: "include",
+      method: "PUT",
+      body: formData,
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      if(data.status === "success") {  
-        props.editUser(data)
-        window.alert('sửa thông tin thành công') 
-        closeButton.current.click()
-      } else {
-        alert(data.message)
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === "success") {
+          props.editUser(data);
+          window.alert("sửa thông tin thành công");
+          closeButton.current.click();
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
-    <>
-      <div
-        className="modal fade"
-        id="editProfileModal"
-        tabIndex="0"
-        aria-labelledby="editProfileModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-5" id="editProfileModalLabel">
-                Sửa thông tin
-              </h1>
-              <button
+    <dialog className="modal" id="editProfileModal">
+      <div className="modal-box rounded-md overflow-hidden p-0 max-w-[34rem] max-h-[100vh]">
+        <div className="py-4">
+          <form method="dialog">
+            <button
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 bg-gray-200"
               ref={closeButton}
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body">
-              <form encType="multipart/form-data" ref={formElement}>
-                <label className="form-label" htmlFor="myName">
-                  Tên:
-                </label>
+            >
+              ✕
+            </button>
+          </form>
+          <h1 className="font-bold text-2xl text-center w-full border-b pb-4 shadow-sm">
+            Sửa thông tin
+          </h1>
+          <div className="w-full max-h-[70vh] overflow-auto">
+            <form className='px-4 my-1' encType="multipart/form-data" ref={formElement}>
+              <label className="form-control w-full">
+                <span>Tên:</span>
                 <input
-                  className="form-control"
+                  className="input input-bordered w-full text-gray-400 focus:text-black"
                   type="text"
-                  id="myName"
                   name="user_fullname"
-                  defaultValue={props.user?.user_fullname || ''}
+                  defaultValue={props.user?.user_fullname || ""}
                 />
+              </label>
 
-                <label className="form-label" htmlFor="myGender">
-                  Giới tính:
-                </label>
+              <label className="">
+                <span>Giới tính:</span>
                 <input
-                  className="form-control"
+                  className="input input-bordered w-full text-gray-400 focus:text-black"
                   type="text"
-                  id="myGender"
                   name="user_gender"
-                  defaultValue={props.user?.user_gender || ''}
+                  defaultValue={props.user?.user_gender || ""}
                 />
+              </label>
 
-                <label className="form-label" htmlFor="myWork">
-                  Công việc:
-                </label>
+              <label className="">
+                <span>Công việc:</span>
                 <input
-                  className="form-control"
+                  className="input input-bordered w-full text-gray-400 focus:text-black"
                   type="text"
-                  id="myWork"
                   name="user_work_title"
-                  defaultValue={props.user?.user_work_title || ''}
+                  defaultValue={props.user?.user_work_title || ""}
                 />
+              </label>
 
-                <label className="form-label" htmlFor="myWorkPlace">
-                  Nơi làm việc:
-                </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="myWorkPlace"
-                  name="user_work_place"
-                  defaultValue={props.user?.user_work_place || ''}
-                />
+              <label className="">
+                <span>Nơi làm việc:</span>
+              </label>
+              <input
+                className="input input-bordered w-full text-gray-400 focus:text-black"
+                type="text"
+                name="user_work_place"
+                defaultValue={props.user?.user_work_place || ""}
+              />
 
-                <label className="form-label" htmlFor="myCity">
-                  Thành phố hiện tại:
-                </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="myCity"
-                  name="user_current_city"
-                  defaultValue={props.user?.user_current_city || ''}
-                />
-                <label className="form-label" htmlFor="myCity">
-                  Đến từ:
-                </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="myCity"
-                  name="user_hometown"
-                  defaultValue={props.user?.user_hometown || ''}
-                />
+              <label className="">
+                <span>Thành phố hiện tại:</span>
+              </label>
+              <input
+                className="input input-bordered w-full text-gray-400 focus:text-black"
+                type="text"
+                name="user_current_city"
+                defaultValue={props.user?.user_current_city || ""}
+              />
+              <label className="">
+                <span>Đến từ:</span>
+              </label>
+              <input
+                className="input input-bordered w-full text-gray-400 focus:text-black"
+                type="text"
+                name="user_hometown"
+                defaultValue={props.user?.user_hometown || ""}
+              />
 
-                <label className="form-label" htmlFor="myBirthday">
-                  Sinh nhật:
-                </label>
-                <input
-                  className="form-control"
-                  type="date"
-                  id="myBirthday"
-                  name="user_birthday"
-                  defaultValue={getbirthday() || ''}
-                />
+              <label className="">
+                <span>Sinh nhật:</span>
+              </label>
+              <input
+                className="input input-bordered w-full text-gray-400 focus:text-black"
+                type="date"
+                name="user_birthday"
+                defaultValue={getbirthday() || ""}
+              />
 
-                <label htmlFor="myAvatar" className="btn btn-light w-100">
-                  <span className="me-2">
-                    <img
-                      height="24"
-                      width="24"
-                      alt=""
-                      src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png"
-                    />
-                  </span>
-                  <span> Thay avatar</span>
-                  <p>{avatar?.name}</p>
-                </label>
+              <label className="">
+                <p> Thay avatar:</p>
                 <input
                   name="images"
-                  className="d-none"
+                  className="file-input file-input-bordered w-full"
                   type="file"
-                  id="myAvatar"
                   accept=".jpg, .jpeg, .png"
-                  onChange={e => setAvatar(e.target.files[0])}
+                  onChange={(e) => setAvatar(e.target.files[0])}
                 ></input>
+              </label>
 
-                <label htmlFor="myCover" className="btn btn-light w-100">
-                  <span className="me-2">
-                    <img
-                      height="24"
-                      width="24"
-                      alt=""
-                      src="https://static.xx.fbcdn.net/rsrc.php/v3/yC/r/a6OjkIIE-R0.png"
-                    />
-                  </span>
-                  <span> Thay ảnh bìa</span>
-                  <p>{cover?.name}</p>
-                </label>
+              <label className="">
+                <p> Thay ảnh bìa:</p>
                 <input
                   name="images"
-                  className="d-none"
+                  className="file-input file-input-bordered w-full"
                   type="file"
-                  id="myCover"
                   accept=".jpg, .jpeg, .png"
-                  onChange={e => setCover(e.target.files[0])}
+                  onChange={(e) => setCover(e.target.files[0])}
                 ></input>
-                <input type="text"
-                className="d-none"
+              </label>
+              <input
+                type="text"
+                className="hidden"
                 name="whatIsChange"
-                value={(avatar ? '1' : '0') + (cover ? '1' : '0')}
+                value={(avatar ? "1" : "0") + (cover ? "1" : "0")}
                 readOnly
-                 />
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" className="btn btn-primary" onClick={handleEditButton}>
-                Save changes
-              </button>
-            </div>
+              />
+            </form>
+          </div>
+          <div className="pt-4 border-t">
+            <button
+              type="button"
+              className="btn w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:brightness-90 text-white"
+              onClick={handleEditButton}
+            >
+              Sửa
+            </button>
           </div>
         </div>
       </div>
-    </>
+      <form method="dialog" className="modal-backdrop">
+        <button>close</button>
+      </form>
+    </dialog>
   );
 };
 export default EditInfo;

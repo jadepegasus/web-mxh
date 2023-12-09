@@ -29,7 +29,7 @@ const MyProfile= () => {
   
     useEffect(() => {
       if (user?.data) {
-        fetch("api/posts/user/" + user.data._id)
+        fetch(host+"/api/posts/user/" + user.data._id)
           .then((res) => res.json())
           .then((data) =>
             setPosts(
@@ -38,11 +38,11 @@ const MyProfile= () => {
               })
             )
           );
-      }
-    }, [user]);
+        }
+      }, [user]);
   
     return (
-      <div className="bg-secondary bg-opacity-10 pb-5">
+      <div className="bg-gray-500/10 pb-5">
         <Cover user={user?.data}/>
         <Info user={user?.data}></Info>
         <EditInfo user={user?.data} editUser={editUser}></EditInfo>
