@@ -156,7 +156,7 @@ const EditInfo = (props) => {
               />
             </form>
           </div>
-          <div className="pt-4 border-t">
+          <div className="pt-4 px-4 border-t">
             <button
               type="button"
               className="btn w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:brightness-90 text-white"

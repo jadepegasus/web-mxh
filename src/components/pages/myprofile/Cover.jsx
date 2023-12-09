@@ -10,7 +10,16 @@ const Cover = (props) => {
     >
       <div className="w-full max-w-[1000px]">
         <div className="relative w-full pt-[37%]">
-          <div className="absolute top-0 start-0 end-0 bottom-0">
+          <div
+            className="absolute top-0 start-0 end-0 bottom-0 cursor-pointer"
+            onClick={(e) => {
+              document.getElementById("modal_image_view").showModal();
+              document.getElementById("image_display").src = props.user
+                ?.user_cover
+                ? `${host}/api/images/${props.user?.user_cover}`
+                : `${host}/default_cover.png`;
+            }}
+          >
             <img
               src={
                 props.user?.user_cover
@@ -26,7 +35,14 @@ const Cover = (props) => {
           <div
             className={`avatar ${
               props.user?.user_activated === "on" ? "online" : "offline"
-            } w-40 h-40 absolute -top-16 right-1/2 translate-x-1/2 lg:left-0`}
+            } w-40 h-40 absolute -top-16 right-1/2 translate-x-1/2 lg:left-0 cursor-pointer`}
+            onClick={(e) => {
+              document.getElementById("modal_image_view").showModal();
+              document.getElementById("image_display").src = props.user
+                ?.user_picture
+                ? `${host}/api/images/${props.user?.user_picture}`
+                : `${host}/default_avatar.png`;
+            }}
           >
             <div className="w-40 h-40 rounded-full border-4 border-white border-b-transparent">
               <img

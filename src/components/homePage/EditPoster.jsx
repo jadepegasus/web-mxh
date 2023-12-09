@@ -53,7 +53,7 @@ const EditPoster = (props) => {
   useEffect(() => {
     editModal.current.showModal();
     textInput.current.innerText = props.post?.text;
-  }, []);
+  }, [props?.post?.text]);
 
   return (
     <dialog className="modal" id="editPostModal" ref={editModal}>
@@ -166,7 +166,7 @@ const EditPoster = (props) => {
               </form>
             </div>
           </div>
-          <div className="pt-4 border-t">
+          <div className="pt-4 px-4 border-t">
             <button
               type="button"
               className="btn w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:brightness-90 text-white"

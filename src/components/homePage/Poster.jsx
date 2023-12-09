@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import EditPoster from "./EditPoster";
 import { Link } from "react-router-dom";
 import Like from "../like/Like";
-import PosterView from "../pages/PosterView";
+import PosterView from "./PosterView";
 import LikeCount from "../like/LikeCount";
-import WriteComment from "../comment/WriteComment";
 import formatter from "../../unity/formatTime";
 
 const Poster = (props) => {
@@ -128,7 +127,10 @@ const Poster = (props) => {
             </div>
           </div>
           <div className="px-4 pb-4">{poster?.text}</div>
-          <div className="flex cursor-pointer">
+          <div
+            className="flex cursor-pointer"
+            onClick={(e) => setPosterView(true)}
+          >
             {poster?.photos?.length === 0 ? (
               ""
             ) : poster?.photos?.length > 1 ? (
@@ -174,7 +176,7 @@ const Poster = (props) => {
               post_id={poster._id}
             />
           </div>
-          <div className="grid grid-cols-3 border-y-[1px] mx-4">
+          <div className="grid grid-cols-3 border-y mx-4">
             <Like
               user_id={poster?.user_id}
               post_id={poster?._id}
@@ -183,7 +185,10 @@ const Poster = (props) => {
               poster={poster}
               setReact={updateReact}
             />
-            <button className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 hover:text-blue-500 group" onClick={(e) => setPosterView(true)}>
+            <button
+              className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 hover:text-blue-500 group"
+              onClick={(e) => setPosterView(true)}
+            >
               <span className="group-hover:animate-shaking-like 3xl:text-[30px] text-[calc(30px/6*5)]">
                 <i className="fa-regular fa-comment"></i>
               </span>
@@ -196,7 +201,6 @@ const Poster = (props) => {
               <span> Chia sẻ</span>
             </button>
           </div>
-          {/* <WriteComment></WriteComment> */}
         </div>
       </div>
       {edit && (
