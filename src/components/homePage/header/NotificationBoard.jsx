@@ -50,7 +50,7 @@ const NotificationBoard = ({ close }) => {
           );
         })
       ) : (
-        <div className="text-center fs-6">Không có thông báo</div>
+        <div className="text-center text-md">Không có thông báo</div>
       )}
     </div>
   );

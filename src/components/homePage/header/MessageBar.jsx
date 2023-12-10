@@ -1,19 +1,38 @@
 import React from "react";
+import { host } from "../../../env";
 import { Link } from "react-router-dom";
+import formatter from "../../../unity/formatTime";
 
 const MessageBar = ({ message }) => {
-  const { content, time, url, sender, unreadCount } = message;
-
   return (
-    <div className="d-flex justify-content-between mb-3">
-      <Link to={url} className="text-decoration-none">
-        <div className="btn btn-light w-100">
-          <div>
-            <span className="ms-2">{`${sender} (${unreadCount} chưa đọc): ${content}`}</span>
+    <div className="bg-white rounded-md flex justify-between p-2 hover:bg-gray-100">
+      <div className="flex items-center">
+        <div
+          className={`avatar ${
+            message?.user?.user_activated === "on" ? "online" : "offline"
+          }`}
+        >
+          <div className="w-9 rounded-full">
+            <img
+              alt="anh"
+              src={
+                message?.user?.user_picture
+                  ? `${host}/api/images/${message?.user?.user_picture}`
+                  : `${host}/default_avatar.png`
+              }
+            />
           </div>
-          <small className="fs-7">{time}</small>
         </div>
-      </Link>
+        <div className="ms-4 flex flex-col -space-y-[0.2rem]">
+          <span className="font-semibold">{message?.user?.user_fullname}</span>
+          <span className="text-gray-500">
+            {message?.message?.text}
+          </span>
+          <span className="text-xs text-gray-500 ms-12">
+            {formatter.format(new Date(message?.message?.timestamp))}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

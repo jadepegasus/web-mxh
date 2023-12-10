@@ -15,6 +15,7 @@ const Header = () => {
   const [numNotify, setNumNotify] = useState(0);
   const notifyToast = useRef();
   const [message, setMessage] = useState(false);
+  const [hasNewMessage, setHasNewMessage] = useState(false);
 
   useEffect(() => {
     function onNotify(notify) {
@@ -23,10 +24,18 @@ const Header = () => {
       document.getElementById("notifyMessage").innerHTML = notify;
       showNotify();
     }
+    function onNewMessage(notify) {
+      document.title = "new message!";
+      setHasNewMessage(true);
+      document.getElementById("notifyMessage").innerHTML = notify;
+      showNotify();
+    }
     socket.on("notify", onNotify);
+    socket.on("newmessage", onNewMessage);
     return () => {
       console.log("out socket");
       socket.off("notify", onNotify);
+      socket.off("newmessage", onNewMessage);
     };
   }, []);
 
@@ -66,6 +75,10 @@ const Header = () => {
       setMessage(0);
     }
     setMessage(!message);
+    if (hasNewMessage) {
+      setHasNewMessage(false);
+      document.title = "wel-come";
+    }
   };
   return (
     <>
@@ -96,14 +109,19 @@ const Header = () => {
               </button>
               {friend && <FriendBoard />}
             </div>
-
-            <button
-              className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative"
-              onClick={handleClickMessage}
-            >
-              <i className="fa-brands fa-rocketchat hover:animate-shaking-like"></i>
+            <div className="relative">
+              <button
+                className="btn btn-ghost text-xl bg-gray-200 rounded-full w-12 mx-2 relative"
+                onClick={handleClickMessage}
+              >
+                {hasNewMessage && (
+                  <div className="badge badge-primary badge-sm !absolute !-top-1 animate-ping">
+                  </div>
+                )}
+                <i className="fa-brands fa-rocketchat hover:animate-shaking-like"></i>
+              </button>
               {message && <MessageBoard />}
-            </button>
+            </div>
 
             <div className="relative">
               <button

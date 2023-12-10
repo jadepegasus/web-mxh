@@ -2,19 +2,17 @@ import Cover from "./myprofile/Cover";
 import Info from "./myprofile/Info";
 import { useState, useEffect } from "react";
 import Poster from "../homePage/Poster";
-import ButtonFriend from "../friend/ButtonFriend";
 import { host } from "../../env";
 
 const StrangerProfile = ({ user_id, user_two_id }) => {
     const [user, setUser] = useState();
     const [posts, setPosts] = useState([])
     useEffect(() => {
-      const fet = fetch(host+"/api/users/" + user_id, {credentials: 'include'})
+      fetch(host+"/api/users/" + user_id, {credentials: 'include'})
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "success") setUser(data.data);
         });
-      return fet.re
     }, [user_id]);
 
     useEffect(() => {
