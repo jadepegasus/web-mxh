@@ -6,9 +6,12 @@ import Like from "../like/Like";
 import PosterView from "./PosterView";
 import LikeCount from "../like/LikeCount";
 import formatter from "../../unity/formatTime";
+import SharePoster from "./SharePoster";
+import PosterShared from "./PosterShared";
 
 const Poster = (props) => {
   const [edit, setEdit] = useState(false);
+  const [share, setShare] = useState(false);
   const [poster, SetPoster] = useState(props.post);
   const [posterView, setPosterView] = useState(false);
   const [react, setReact] = useState("none");
@@ -70,11 +73,15 @@ const Poster = (props) => {
   return (
     <>
       <div className="flex justify-center mt-4">
-        <div className="bg-white shadow-sm rounded-lg col-12 w-full sm:w-[562.4px]">
+        <div className="bg-white shadow-sm rounded-lg col-12 w-full sm:w-[562.4px] dark:bg-opacity-10">
           <div className="d-flex relative px-4 pt-4">
             {props.readonly || (
               <div className="dropdown dropdown-end absolute end-0 top-0">
-                <div tabIndex={0} role='button' className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0 shadow-none">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0 shadow-none"
+                >
                   <svg
                     viewBox="0 0 20 20"
                     width="16"
@@ -86,7 +93,10 @@ const Poster = (props) => {
                     </g>
                   </svg>
                 </div>
-                <ul tabIndex={0} className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                <ul
+                  tabIndex={0}
+                  className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52"
+                >
                   <li>
                     <button onClick={() => setEdit(true)}>Sửa</button>
                   </li>
@@ -118,7 +128,10 @@ const Poster = (props) => {
               </Link>
               <div className="ms-2">
                 <div className="font-semibold leading-3">
-                  {props.user?.user_fullname}
+                  <span>{props.user?.user_fullname}</span>
+                  <span className="ms-2 font-thin text-sm">
+                    {!poster?.share_from ? '' : 'đã chia sẻ 1 bài viết'}
+                  </span>
                 </div>
                 <small className="text-gray-400">
                   {formatter.format(new Date(poster?.time))}
@@ -127,6 +140,11 @@ const Poster = (props) => {
             </div>
           </div>
           <div className="px-4 pb-4">{poster?.text}</div>
+          {!poster?.share_from ? (
+            <></>
+          ) : (
+            <PosterShared post_id={poster.share_from}></PosterShared>
+          )}
           <div
             className="flex cursor-pointer"
             onClick={(e) => setPosterView(true)}
@@ -166,7 +184,6 @@ const Poster = (props) => {
               />
             )}
           </div>
-
           <div className="text-blue-500 px-4">
             <LikeCount
               like={poster.likes}
@@ -194,7 +211,10 @@ const Poster = (props) => {
               </span>
               <span>Bình luận</span>
             </button>
-            <button className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 hover:text-blue-500 group">
+            <button
+              className="btn w-full my-1 bg-transparent border-none shadow-none hover:bg-gray-100 hover:text-blue-500 group"
+              onClick={(e) => setShare(true)}
+            >
               <span className="group-hover:animate-shaking-like 3xl:text-[30px] text-[calc(30px/6*5)]">
                 <i className="fa-regular fa-share-from-square"></i>
               </span>
@@ -219,6 +239,14 @@ const Poster = (props) => {
           react={react}
           setReact={updateReact}
         ></PosterView>
+      )}
+      {share && (
+        <SharePoster
+          user={props.user}
+          post={poster}
+          close={() => setShare(false)}
+          update={updatePoster}
+        ></SharePoster>
       )}
     </>
   );

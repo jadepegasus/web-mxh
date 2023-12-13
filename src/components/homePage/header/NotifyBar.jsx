@@ -4,7 +4,7 @@ import formatter from "../../../unity/formatTime";
 
 const NotifyBar = ({ notify, delNotify }) => {
   const handleDeleteNotify = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     fetch(host + "/api/notifications/delete/" + notify._id, {
       credentials: "include",
     })
@@ -21,8 +21,12 @@ const NotifyBar = ({ notify, delNotify }) => {
       className="flex justify-between items-center hover:bg-gray-100 px-2 rounded-md"
     >
       <div>
-        {notify?.action === "addfriend" && (
+        {notify?.action === "addfriend" ? (
           <i className="fa-solid fa-user-plus text-blue-500 hover:animate-shaking-like text-3xl"></i>
+        ) : notify?.action === "like" ? (
+          <i className="fa-solid fa-thumbs-up text-blue-500 hover:animate-shaking-like text-3xl"></i>
+        ) : (
+          <i className="fa-regular fa-comment text-blue-500 hover:animate-shaking-like text-3xl"></i>
         )}
       </div>
       <div className="ms-2">
@@ -31,7 +35,10 @@ const NotifyBar = ({ notify, delNotify }) => {
           {formatter.format(new Date(notify?.time))}
         </p>
       </div>
-      <div className="px-3 py-2 hover:bg-gray-200 rounded-full" onClick={handleDeleteNotify}>
+      <div
+        className="px-3 py-2 hover:bg-gray-200 rounded-full"
+        onClick={handleDeleteNotify}
+      >
         <i className="fa-solid fa-trash"></i>
       </div>
     </Link>

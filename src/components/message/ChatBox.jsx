@@ -141,7 +141,7 @@ const ChatBox = ({ receiver, close }) => {
         <span className="font-semibold">{receiver?.user_fullname}</span>
       </Link>
       <hr className="mt-2"></hr>
-      <div className="max-h-[70vh] overflow-auto" ref={scrollBox}>
+      <div className="max-h-[70vh] overflow-auto min-h-[50vh]" ref={scrollBox}>
         {messages.map((message, index) =>
           message.sender === sender?._id ? (
             <div className="relative group">

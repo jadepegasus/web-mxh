@@ -4,16 +4,20 @@ import "./App.css";
 import Login from "./Auth/Login";
 import HomePage from "./components/homePage/HomePage";
 import SignUp from "./Auth/Signup";
+import PosterPage from "./components/pages/PosterPage";
+import ImageView from './components/image/ImageView'
 
 function App() {
   return (
     <>
+      <ImageView></ImageView>
+
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/profile" element={<Profile />} />
         <Route path="/homepage" element={<HomePage></HomePage>} />
         <Route path="/signup" element={<SignUp></SignUp>} />
-        <Route path="/post" ></Route>
+        <Route path="/post" element={<PosterPage></PosterPage>}></Route>
 
       </Routes>
     </>

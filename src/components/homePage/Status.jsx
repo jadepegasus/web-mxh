@@ -30,6 +30,7 @@ const Status = (props) => {
         if (data.status === "success") {
           setStatus("");
           editStatus.current.innerText = "";
+          formElement.current.reset()
           props.setPost({ ...data.data, user: props.user });
           alert("thêm bài viết thành công");
           closeModal.current.click();
@@ -45,7 +46,7 @@ const Status = (props) => {
   return (
     <>
       <div className="flex justify-center pt-4">
-        <div className="bg-white shadow-sm rounded-lg col-12 w-full sm:w-[562.4px]">
+        <div className="bg-white shadow-sm rounded-lg col-12 w-full sm:w-[562.4px] dark:bg-opacity-10">
           <div className="flex mx-4 my-3">
             <Link to={`/profile?id=${props.user?._id}`}>
               <div className="avatar">

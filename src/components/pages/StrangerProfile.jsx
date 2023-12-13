@@ -32,7 +32,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
 
   if (user)
     return (
-      <>
+      <div className="bg-gray-500/10">
         <Cover user={user} user_one_id={user_two_id} user_two_id={user_id} readonly={true}/>
         <Info user={user}></Info> 
         {posts.map((post) => (
@@ -44,7 +44,7 @@ const StrangerProfile = ({ user_id, user_two_id }) => {
           />
         ))}
         <div>{user?._id}</div>
-      </>
+      </div>
     );
   return <div className="text-center mt-5 fw-bold">Không tìm được user</div>;
 };

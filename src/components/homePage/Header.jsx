@@ -6,7 +6,6 @@ import NotificationBoard from "./header/NotificationBoard";
 import { socket } from "../../socket";
 import MessageBoard from "./header/MessageBoard";
 import { host } from "../../env";
-import ImageView from "../image/ImageView";
 
 const Header = () => {
   const [search, setSearch] = useState(false);
@@ -92,7 +91,6 @@ const Header = () => {
   };
   return (
     <>
-      <ImageView></ImageView>
       <div className="h-14">
         <div className="navbar bg-base-100 fixed shadow-sm z-40">
           <div className="flex-1">

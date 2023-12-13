@@ -6,7 +6,7 @@ const Info = (props) => {
   return (
     <div className="flex justify-center mt-4">
       <div
-        className="bg-white shadow-sm rounded-xl col-12"
+        className="bg-white shadow-sm rounded-xl col-12 dark:bg-opacity-10"
         style={{
           width: "95%",
           maxWidth: "562.4px",
