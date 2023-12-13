@@ -167,7 +167,7 @@ const Header = () => {
         </div>
         <div
           ref={notifyToast}
-          className="toast toast-end pointer-events-none transition ease-in-out duration-1000 bottom-0 right-0 opacity-0 z-50"
+          className="toast toast-bottom toast-start pointer-events-none transition ease-in-out duration-1000 opacity-0 z-10"
         >
           <div className="alert alert-info">
             <span id="notifyMessage">New mail arrived.</span>

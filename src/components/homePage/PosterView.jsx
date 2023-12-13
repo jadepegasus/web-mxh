@@ -7,6 +7,7 @@ import LikeCount from "../like/LikeCount";
 import formatter from "../../unity/formatTime";
 import Comment from "../comment/Comment";
 import SharePoster from "./SharePoster";
+import { socket } from "../../socket";
 
 const PosterView = ({ close, post_id, update, react, setReact }) => {
   const [poster, setPoster] = useState();
@@ -55,6 +56,10 @@ const PosterView = ({ close, post_id, update, react, setReact }) => {
           commentTextField.current.innerText = "";
           setText("");
           updatePoster({ ...poster, comments: poster.comments + 1 });
+          socket.emit("notify", {
+            user_two_id: poster?.user._id,
+            message: "bạn có thêm 1 bình luận",
+          });
         } else window.alert(data.message);
       });
   };
@@ -205,8 +210,8 @@ const PosterView = ({ close, post_id, update, react, setReact }) => {
                 </div>
               </div>
               <div>
-                {comments.map((comment) => (
-                  <div className="mx-4 relative group">
+                {comments.map((comment, index) => (
+                  <div className="mx-4 relative group" key={index}>
                     <Comment comment={comment}></Comment>
                     <div
                       className="text-blue-500  absolute end-0 top-1/3 rounded-md hover:bg-gray-300/50 items-center p-1 hidden group-hover:flex"

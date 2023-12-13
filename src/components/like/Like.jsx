@@ -1,10 +1,16 @@
 import { useRef } from "react";
 import { host } from "../../env";
+import { socket } from "../../socket";
+
 
 const Like = ({ post_id, user_id, update, poster, react, setReact }) => {
   const reactIcon = useRef();
 
   const handleReact = async (type) => {
+    socket.emit("notify", {
+      user_two_id: poster?.user_id,
+      message: "bạn có thêm 1 lượt thích",
+    });
     setReact(type);
     if (type === "like" && react === "none")
       update({ ...poster, likes: poster?.likes + 1 });
