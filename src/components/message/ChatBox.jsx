@@ -251,4 +251,5 @@ const ChatBox = ({ receiver, close }) => {
   );
 };
 
+
 export default ChatBox;
