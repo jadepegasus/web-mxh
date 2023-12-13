@@ -41,10 +41,15 @@ const Header = () => {
 
   const handleOnSearch = () => {
     setSearch(!search);
+    setFriend(false)
+    setNotification(false)
+    // setMessage(false)
   };
   const handleClickFriend = () => {
     setFriend(!friend);
     setNotification(false);
+    setMessage(false)
+    setSearch(false)
   };
   const handleClickNotification = () => {
     if (!notification) {
@@ -53,6 +58,8 @@ const Header = () => {
     }
     setNotification(!notification);
     setFriend(false);
+    setMessage(false)
+    setSearch(false)
   };
 
   const logout = () => {
@@ -79,6 +86,9 @@ const Header = () => {
       setHasNewMessage(false);
       document.title = "wel-come";
     }
+    setNotification(false)
+    setFriend(false)
+    setSearch(false)
   };
   return (
     <>

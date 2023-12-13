@@ -49,7 +49,6 @@ const EditPoster = (props) => {
       });
   };
 
-  console.log(text);
   useEffect(() => {
     editModal.current.showModal();
     textInput.current.innerText = props.post?.text;

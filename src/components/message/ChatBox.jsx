@@ -12,7 +12,7 @@ const ChatBox = ({ receiver, close }) => {
   const timeoutId = useRef(0);
   const inputMessage = useRef();
   const scrollBox = useRef();
-  const rcv = useRef() //receiver
+  const rcv = useRef(); //receiver
 
   useEffect(() => {
     fetch(host + "/api/users/myinfo", { credentials: "include" })
@@ -27,12 +27,20 @@ const ChatBox = ({ receiver, close }) => {
         if (data.status === "success") setMessages(data.data);
         else window.alert(data.messages);
       });
-    rcv.current=receiver
+    rcv.current = receiver;
   }, [receiver]);
 
   const sendMessage = () => {
-    socket.emit('onmessage', {sender: sender?._id, receiver: receiver?._id, text: newMessage, timestamp: new Date(Date.now())})
-    socket.emit('newmessage', {receiver: receiver?._id, message: `${sender?.user_fullname} đã gửi 1 tin nhắn`})
+    socket.emit("onmessage", {
+      sender: sender?._id,
+      receiver: receiver?._id,
+      text: newMessage,
+      timestamp: new Date(Date.now()),
+    });
+    socket.emit("newmessage", {
+      receiver: receiver?._id,
+      message: `${sender?.user_fullname} đã gửi 1 tin nhắn`,
+    });
     fetch(host + "/api/messages", {
       credentials: "include",
       method: "POST",
@@ -79,22 +87,22 @@ const ChatBox = ({ receiver, close }) => {
       if (message.sender === rcv.current?._id) {
         setEntering(true);
         if (timeoutId.current) clearTimeout(timeoutId.current);
-          timeoutId.current =setTimeout(() => {
-            setEntering(false);
-          }, 5000)
+        timeoutId.current = setTimeout(() => {
+          setEntering(false);
+        }, 5000);
       }
     }
     function onMessage(message) {
-      if(message.sender === rcv.current?._id) {
-        setMessages(messages => [...messages, message])
+      if (message.sender === rcv.current?._id) {
+        setMessages((messages) => [...messages, message]);
       }
     }
     socket.on("entering", onEntering);
-    socket.on('onmessage', onMessage)
+    socket.on("onmessage", onMessage);
     return () => {
       console.log("out socket");
       socket.off("entering", onEntering);
-      socket.off('onmessage', onMessage)
+      socket.off("onmessage", onMessage);
       clearTimeout(timeoutId.current);
     };
   }, []);
@@ -136,8 +144,8 @@ const ChatBox = ({ receiver, close }) => {
       <div className="max-h-[70vh] overflow-auto" ref={scrollBox}>
         {messages.map((message, index) =>
           message.sender === sender?._id ? (
-            <div className="dropdown w-full" tabIndex={0} key={index}>
-              <div className="chat chat-end" role="button">
+            <div className="relative group">
+              <div className="chat chat-end">
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <img
@@ -156,27 +164,24 @@ const ChatBox = ({ receiver, close }) => {
                   </time>
                 </div>
                 <div
-                  className="chat-bubble chat-bubble-primary dropdown"
+                  className="chat-bubble chat-bubble-primary dropdown break-words cursor-pointer"
                   tabIndex={0}
                 >
                   {message?.text}
                 </div>
                 <div className="chat-footer opacity-50">Delivered</div>
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 top-0"
+              <div
+                className="text-blue-500  absolute start-0 top-1/3 rounded-md hover:bg-gray-300/50 items-center p-1 hidden group-hover:flex"
+                onClick={(e) => deleteMessage(message?._id)}
+                role="button"
               >
-                <li>
-                  <button onClick={(e) => deleteMessage(message?._id)}>
-                    Xóa
-                  </button>
-                </li>
-              </ul>
+                <i className="fa-solid fa-trash"></i>
+              </div>
             </div>
           ) : (
-            <div className="dropdown w-full" tabIndex={0} key={index}>
-              <div className="chat chat-start" role="button">
+            <div className="relative group">
+              <div className="chat chat-start">
                 <div className="chat-image avatar">
                   <div className="w-10 rounded-full">
                     <img
@@ -194,18 +199,15 @@ const ChatBox = ({ receiver, close }) => {
                     {formatter.format(new Date(message?.timestamp))}
                   </time>
                 </div>
-                <div className="chat-bubble">{message?.text}</div>
+                <div className="chat-bubble break-words cursor-pointer">{message?.text}</div>
               </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 top-0"
+              <div
+                className="absolute end-0 top-1/3 rounded-md hover:bg-gray-300/50 items-center p-1 hidden group-hover:block"
+                onClick={(e) => deleteMessage(message?._id)}
+                role="button"
               >
-                <li>
-                  <button onClick={(e) => deleteMessage(message?._id)}>
-                    Xóa
-                  </button>
-                </li>
-              </ul>
+                <i className="fa-solid fa-trash"></i>
+              </div>
             </div>
           )
         )}
@@ -226,12 +228,12 @@ const ChatBox = ({ receiver, close }) => {
         <div className="absolute top-2 pointer-events-none text-gray-500 font-thin text-md">
           {!newMessage ? "Aa" : ""}
         </div>
-        <div className="absolute bottom-2 right-3 cursor-pointer">
+        <div className="absolute bottom-0 right-1">
           {!newMessage ? (
-            <i className="fa-solid fa-paper-plane"></i>
+            <i className="fa-solid fa-paper-plane p-2"></i>
           ) : (
             <i
-              className="fa-solid fa-paper-plane text-blue-500"
+              className="fa-solid fa-paper-plane p-2 cursor-pointer text-blue-500"
               onClick={sendMessage}
             ></i>
           )}
@@ -239,7 +241,7 @@ const ChatBox = ({ receiver, close }) => {
       </div>
       {entering && (
         <div className="absolute top-1/2 left-0 chat chat-start">
-          <div className="chat-bubble chat-bubble-primary opacity-50">
+          <div className="chat-bubble opacity-80">
             {receiver?.user_fullname}
           </div>
           <div className="chat-footer">đang nhập...</div>

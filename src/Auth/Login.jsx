@@ -44,7 +44,7 @@ const Login = () => {
 
   const authButton = (type) => {
     console.log(type);
-    window.location.href = "https://localhost:8080/auth/" + type;
+    window.location.href = "/auth/" + type;
   };
 
   const showErr = () => {

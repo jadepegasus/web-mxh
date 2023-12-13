@@ -73,8 +73,8 @@ const Poster = (props) => {
         <div className="bg-white shadow-sm rounded-lg col-12 w-full sm:w-[562.4px]">
           <div className="d-flex relative px-4 pt-4">
             {props.readonly || (
-              <details className="dropdown dropdown-end absolute end-0 top-0">
-                <summary className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0 shadow-none">
+              <div className="dropdown dropdown-end absolute end-0 top-0">
+                <div tabIndex={0} role='button' className="m-1 btn bg-white rounded-full border-none hover:bg-gray-100 w-10 h-10 min-h-0 p-0 shadow-none">
                   <svg
                     viewBox="0 0 20 20"
                     width="16"
@@ -85,8 +85,8 @@ const Poster = (props) => {
                       <path d="M458 360a2 2 0 1 1-4 0 2 2 0 0 1 4 0m6 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0m-12 0a2 2 0 1 1-4 0 2 2 0 0 1 4 0"></path>
                     </g>
                   </svg>
-                </summary>
-                <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                </div>
+                <ul tabIndex={0} className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                   <li>
                     <button onClick={() => setEdit(true)}>Sửa</button>
                   </li>
@@ -94,7 +94,7 @@ const Poster = (props) => {
                     <button onClick={handleDeletePoster}>Xóa</button>
                   </li>
                 </ul>
-              </details>
+              </div>
             )}
 
             <div className="flex items-center justify-start">
