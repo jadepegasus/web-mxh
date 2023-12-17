@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect , Component} from "react";
 import { validateEmail, validatePassword } from "../unity/validate";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
@@ -11,6 +11,7 @@ const Login = () => {
   const [login, setLogin] = useState(false);
   const [err, setErr] = useState("");
   const notify = useRef();
+  const isShowPassword = useState(false);
 
   useEffect(() => {
     fetch(host + "/logined", { credentials: "include" })
@@ -53,7 +54,22 @@ const Login = () => {
       notify.current?.classList.add("opacity-0");
     }, 4000);
   };
-
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
+  const handleOnChangePassword = (event) => {
+    setState({
+      password: event.target.value
+    })
+    console.log(event.target.password)
+  };
+  const handleShowHidePassword = () => {
+    this.setState({
+      isShowPassword: !this.state.isShowPassword,
+    });
+  };
   if (!login)
     return (
       <div
@@ -143,13 +159,40 @@ const Login = () => {
                       d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
                     />
                   </svg>
-                  <input
-                    className="py-2 pl-10 w-full outline-none border-b-2 bg-transparent text-gray-100"
-                    placeholder="Password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <div>
+                    <input
+                      className="py-2 pl-10 w-full outline-none border-b-2 bg-transparent text-gray-100"
+                      placeholder="Password"
+                      type={
+                        isShowPassword
+                          ? "text"
+                          : "password"
+                      }
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        handleOnChangePassword(e)
+                      }
+                      }
+
+                      onKeyDown={(event) =>
+                        handleKeyDown(event)
+                      }
+                    />
+                    <span
+                      onClick={() => {
+                        handleShowHidePassword();
+                      }}
+                    >
+                      <i
+                        className={
+                          isShowPassword
+                            ? "far fa-eye-slash"
+                            : "far fa-eye"
+                        }
+                      ></i>
+                    </span>
+                  </div>
                   {validatePassword(password) || password === "" || (
                     <p className="text-red-500 text-sm fixed text-center w-full start-0">
                       Mật khẩu ít nhất 8 ký tự
@@ -264,8 +307,8 @@ const Login = () => {
         </div>
       </div>
     );
-    window.location.href='/homepage'
-    return <></>
+  window.location.href = '/homepage'
+  return <></>
 };
 
 export default Login;

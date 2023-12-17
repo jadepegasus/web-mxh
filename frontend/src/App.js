@@ -6,8 +6,10 @@ import HomePage from "./components/homePage/HomePage";
 import SignUp from "./Auth/Signup";
 import PosterPage from "./components/pages/PosterPage";
 import ImageView from './components/image/ImageView'
+// import { useSelector } from "react-redux";
 
 function App() {
+  // const user = useSelector((state) => state.authReducer.authData);
   return (
     <>
       <ImageView></ImageView>
