@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect , Component} from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { validateEmail, validatePassword } from "../unity/validate";
 import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
@@ -11,7 +11,6 @@ const Login = () => {
   const [login, setLogin] = useState(false);
   const [err, setErr] = useState("");
   const notify = useRef();
-  const isShowPassword = useState(false);
 
   useEffect(() => {
     fetch(host + "/logined", { credentials: "include" })
@@ -53,22 +52,6 @@ const Login = () => {
     setTimeout(() => {
       notify.current?.classList.add("opacity-0");
     }, 4000);
-  };
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
-      handleLogin();
-    }
-  };
-  const handleOnChangePassword = (event) => {
-    setState({
-      password: event.target.value
-    })
-    console.log(event.target.password)
-  };
-  const handleShowHidePassword = () => {
-    this.setState({
-      isShowPassword: !this.state.isShowPassword,
-    });
   };
   if (!login)
     return (
@@ -131,6 +114,7 @@ const Login = () => {
                     />
                   </svg>
                   <input
+        
                     className="py-2 pl-10 w-full outline-none border-b-2 bg-transparent text-gray-100"
                     placeholder="Email address"
                     type="email"
@@ -164,34 +148,17 @@ const Login = () => {
                       className="py-2 pl-10 w-full outline-none border-b-2 bg-transparent text-gray-100"
                       placeholder="Password"
                       type={
-                        isShowPassword
-                          ? "text"
-                          : "password"
+                        "password"
                       }
                       value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        handleOnChangePassword(e)
-                      }
+                      onChange={(e) =>
+                        setPassword(e.target.value)
+
                       }
 
-                      onKeyDown={(event) =>
-                        handleKeyDown(event)
-                      }
+
                     />
-                    <span
-                      onClick={() => {
-                        handleShowHidePassword();
-                      }}
-                    >
-                      <i
-                        className={
-                          isShowPassword
-                            ? "far fa-eye-slash"
-                            : "far fa-eye"
-                        }
-                      ></i>
-                    </span>
+
                   </div>
                   {validatePassword(password) || password === "" || (
                     <p className="text-red-500 text-sm fixed text-center w-full start-0">
