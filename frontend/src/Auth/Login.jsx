@@ -4,14 +4,14 @@ import background from "../img/backgound-thienha.jpg";
 import { useRef } from "react";
 import { host } from "../env";
 import { Link } from "react-router-dom";
-
+import { useSelectorM} from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(false);
   const [err, setErr] = useState("");
   const notify = useRef();
-
+  const loading = useSelector((state) => state.authReducer.loading);
   useEffect(() => {
     fetch(host + "/logined", { credentials: "include" })
       .then((res) => {
@@ -114,7 +114,7 @@ const Login = () => {
                     />
                   </svg>
                   <input
-        
+
                     className="py-2 pl-10 w-full outline-none border-b-2 bg-transparent text-gray-100"
                     placeholder="Email address"
                     type="email"
@@ -172,7 +172,7 @@ const Login = () => {
                     type="submit"
                     onClick={() => handleLogin(email, password)}
                     disabled={
-                      !validateEmail(email) || !validatePassword(password)
+                      !validateEmail(email) || !validatePassword(password) || loading
                     }
                   >
                     <svg
