@@ -18,7 +18,7 @@
         "react2": "^15.3.1",
         "socket.io-client": "^4.7.2",
         "web-vitals": "^2.1.0",
-        "yarn": "^1.22.19"
+        "yarn": "^1.22.21"
     },
     "scripts": {
         "start": "react-scripts start",

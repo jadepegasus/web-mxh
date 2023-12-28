@@ -38,9 +38,8 @@ const Cover = (props) => {
           </div>
           <div className="relative pt-12 pb-36 flex flex-col">
             <div
-              className={`avatar ${
-                props.user?.user_activated === "on" ? "online" : "offline"
-              } w-40 h-40 absolute -top-16 right-1/2 translate-x-1/2 lg:left-0 cursor-pointer`}
+              className={`avatar ${props.user?.user_activated === "on" ? "online" : "offline"
+                } w-40 h-40 absolute -top-16 right-1/2 translate-x-1/2 lg:left-0 cursor-pointer`}
               onClick={(e) => {
                 document.getElementById("modal_image_view").showModal();
                 document.getElementById("image_display").src = props.user

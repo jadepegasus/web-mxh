@@ -5,6 +5,7 @@ import Header from "./Header";
 import { socket } from "../../socket";
 import { host } from "../../env";
 import ProfileSide from "../profileSide/profileSide";
+import ChatSide from "../chatSide/chatSide"
 const HomePage = () => {
   document.title = "Home Page";
   const [user, setUser] = useState();
@@ -53,9 +54,15 @@ const HomePage = () => {
     return (
       <>
         <Header></Header>
-        <div className="main">
+        <div className="main bg-gray-500/10" style={{
+          position: "relative",
+          display: "grid",
+          gridTemplateColumns: "18rem auto 20rem",
+          gap: "1rem",
+
+        }}>
           <ProfileSide></ProfileSide>
-          <div className="bg-gray-500/10">
+          <div className="">
             <Status user={user?.data} setPost={addPosts} />
             {posts.map((post) => (
               <Poster
@@ -67,7 +74,7 @@ const HomePage = () => {
               />
             ))}
           </div>
-          <chatSide></chatSide>
+          <ChatSide></ChatSide>
         </div>
       </>
     );
