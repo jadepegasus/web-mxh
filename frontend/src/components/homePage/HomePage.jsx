@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header";
 import { socket } from "../../socket";
 import { host } from "../../env";
-
+import ProfileSide from "../profileSide/profileSide";
 const HomePage = () => {
   document.title = "Home Page";
   const [user, setUser] = useState();
@@ -53,21 +53,25 @@ const HomePage = () => {
     return (
       <>
         <Header></Header>
-        <div className="bg-gray-500/10">
-          <Status user={user?.data} setPost={addPosts} />
-          {posts.map((post) => (
-            <Poster
-              key={post?._id}
-              post={post}
-              user={post.user}
-              readonly={user?.data?._id !== post.user?._id}
-              delete={deletePost}
-            />
-          ))}
+        <div className="main">
+          <ProfileSide></ProfileSide>
+          <div className="bg-gray-500/10">
+            <Status user={user?.data} setPost={addPosts} />
+            {posts.map((post) => (
+              <Poster
+                key={post?._id}
+                post={post}
+                user={post.user}
+                readonly={user?.data?._id !== post.user?._id}
+                delete={deletePost}
+              />
+            ))}
+          </div>
+          <chatSide></chatSide>
         </div>
       </>
     );
-    window.location.href='/'
-    return <></>
+  window.location.href = '/'
+  return <></>
 };
 export default HomePage;
