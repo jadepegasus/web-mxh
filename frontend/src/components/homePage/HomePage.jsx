@@ -6,6 +6,7 @@ import { socket } from "../../socket";
 import { host } from "../../env";
 import ProfileSide from "../profileSide/profileSide";
 import ChatSide from "../chatSide/chatSide"
+import './HomePage.css'
 const HomePage = () => {
   document.title = "Home Page";
   const [user, setUser] = useState();
@@ -54,13 +55,7 @@ const HomePage = () => {
     return (
       <>
         <Header></Header>
-        <div className="main bg-gray-500/10" style={{
-          position: "relative",
-          display: "grid",
-          gridTemplateColumns: "18rem auto 20rem",
-          gap: "1rem",
-
-        }}>
+        <div className="main bg-gray-500/10" >
           <ProfileSide></ProfileSide>
           <div className="">
             <Status user={user?.data} setPost={addPosts} />

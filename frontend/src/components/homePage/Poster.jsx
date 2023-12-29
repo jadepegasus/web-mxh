@@ -110,9 +110,8 @@ const Poster = (props) => {
             <div className="flex items-center justify-start">
               <Link to={`/profile?id=${props.user?._id}`}>
                 <div
-                  className={`avatar ${
-                    props.user.user_activated === "on" ? "online" : "offline"
-                  }`}
+                  className={`avatar ${props.user.user_activated === "on" ? "online" : "offline"
+                    }`}
                 >
                   <div className="w-10 rounded-full">
                     <img

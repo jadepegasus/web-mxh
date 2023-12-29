@@ -32,7 +32,7 @@ const ProfileSide = () => {
 
     return (
         <>
-            <div className=" pt-4" >
+            <div className=" pt-4 w-1/3 flex justify-center  "  >
                 <ProfileDetail user={user?.data}></ProfileDetail>
             </div>
         </>

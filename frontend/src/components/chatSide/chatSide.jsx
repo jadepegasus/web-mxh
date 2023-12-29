@@ -1,20 +1,35 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import SearchBoard from "../homePage/header/SearchBoard";
-import FriendBoard from "../homePage/header/FriendBoard";
-import NotificationBoard from "../homePage/header/NotificationBoard";
-import { socket } from "../../socket";
-import MessageBoard from "../homePage/header/MessageBoard";
+import { useEffect, useState } from "react";
+import UserBar from "../homePage/header/UserBar";
 import { host } from "../../env";
 
 const ChatSide = () => {
 
+    const [friends, setFriends] = useState([]);
+
+    useEffect(() => {
+        fetch(host + "/api/friends/getfriends", { credentials: "include" })
+            .then((result) => result.json())
+            .then((data) => {
+                if (data.status === "success")
+                    setFriends(
+                        data.data.sort((a, b) => {
+                            return a.date < b.date ? 1 : -1;
+                        })
+                    );
+            });
+    }, []);
     return (
-        <>
-            <div className="flex justify-center pt-4 ">
-                chatSide
-            </div>
-        </>
+        <div className="">
+
+            {friends.length > 0 ? (
+                friends.map((user) => {
+                    return <UserBar user={user} key={user._id}></UserBar>;
+                })
+            ) : (
+                <div className="text-center fs-6">Bạn chưa kết bạn với ai</div>
+            )}
+        </div>
     );
 };
 export default ChatSide;
