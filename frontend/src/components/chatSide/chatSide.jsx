@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import UserBar from "../homePage/header/UserBar";
+import React, { useEffect, useState } from "react";
+import MessageBar from "../homePage/header/MessageBar";
+import ChatBox from "../message/ChatBox";
 import { host } from "../../env";
-
-const ChatSide = () => {
-
+const ChatSide = ({ close }) => {
+    const [messages, setMessages] = useState([]);
+    const [selectedMessage, setSelectedMessage] = useState(null);
+    const [chatbox, setChatbox] = useState(false);
     const [friends, setFriends] = useState([]);
-
     useEffect(() => {
         fetch(host + "/api/friends/getfriends", { credentials: "include" })
             .then((result) => result.json())
@@ -19,17 +19,65 @@ const ChatSide = () => {
                     );
             });
     }, []);
-    return (
-        <div className="">
+    useEffect(() => {
+        fetch(host + "/api/messages", { credentials: "include" })
+            .then((result) => result.json())
+            .then((data) => {
+                if (data.status === "success") {
+                    setMessages(data.data);
+                } else {
+                    window.alert(data.message);
+                }
+            });
+    }, []);
 
-            {friends.length > 0 ? (
-                friends.map((user) => {
-                    return <UserBar user={user} key={user._id}></UserBar>;
-                })
-            ) : (
-                <div className="text-center fs-6">Bạn chưa kết bạn với ai</div>
-            )}
-        </div>
+    const handleSelectMessage = (message) => {
+        setSelectedMessage(message);
+        setChatbox(true)
+    };
+
+    return (
+        <>
+            <div className="">
+
+                <hr></hr>
+                {messages.length > 0 ? (
+                    messages.map((message, index) => {
+                        return (
+                            <div onClick={(e) => handleSelectMessage(message)} key={index}>
+                                <div className="bg-white rounded-md flex justify-between p-2 hover:bg-gray-100">
+                                    <div className="flex items-center">
+                                        <div
+                                            className={`avatar ${message?.user?.user_activated === "on" ? "online" : "offline"
+                                                }`}
+                                        >
+                                            <div className="w-9 rounded-full">
+                                                <img
+                                                    alt="anh"
+                                                    src={
+                                                        message?.user?.user_picture
+                                                            ? `${host}/api/images/${message?.user?.user_picture}`
+                                                            : `${host}/default_avatar.png`
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="ms-4 flex flex-col -space-y-[0.2rem]">
+                                            <span className="font-semibold">{message?.user?.user_fullname}</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : (
+                    <div className="text-center text-md">Không có tin nhắn</div>
+                )}
+            </div>
+            {chatbox && <ChatBox receiver={selectedMessage.user} close={() => setChatbox(false)}></ChatBox>}
+        </>
     );
 };
+
 export default ChatSide;

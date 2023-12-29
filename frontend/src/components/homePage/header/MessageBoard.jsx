@@ -35,7 +35,7 @@ const MessageBoard = ({ close }) => {
         {messages.length > 0 ? (
           messages.map((message, index) => {
             return (
-              <div onClick={(e) => handleSelectMessage(message)}  key={index}>
+              <div onClick={(e) => handleSelectMessage(message)} key={index}>
                 <MessageBar message={message} />
               </div>
             );
