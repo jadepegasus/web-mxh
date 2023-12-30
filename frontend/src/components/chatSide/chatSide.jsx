@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import MessageBar from "../homePage/header/MessageBar";
 import ChatBox from "../message/ChatBox";
 import { host } from "../../env";
+
 const ChatSide = ({ close }) => {
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
@@ -38,13 +38,13 @@ const ChatSide = ({ close }) => {
 
     return (
         <>
-            <div className="">
+            <div className="pt-4 md:max-md:hidden md:w-56 md:w-1/4 md:pl-4 overflow-x-hidden overflow-y-auto max-h-[90vh] flex flex-col fixed right-0 " >
 
-                <hr></hr>
+
                 {messages.length > 0 ? (
                     messages.map((message, index) => {
                         return (
-                            <div onClick={(e) => handleSelectMessage(message)} key={index}>
+                            <div className="pt-1" onClick={(e) => handleSelectMessage(message)} key={index}>
                                 <div className="bg-white rounded-md flex justify-between p-2 hover:bg-gray-100">
                                     <div className="flex items-center">
                                         <div

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+
+import { useState, useEffect } from "react";
 
 import ProfileDetail from "./profileDetail"
-import { socket } from "../../socket";
 import { host } from "../../env";
 
 const ProfileSide = () => {
