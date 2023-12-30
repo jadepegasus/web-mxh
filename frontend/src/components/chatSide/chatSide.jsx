@@ -38,7 +38,8 @@ const ChatSide = ({ close }) => {
 
     return (
         <>
-            <div className="pt-4 md:max-md:hidden md:w-56 md:w-1/4 md:pl-4 overflow-x-hidden overflow-y-auto max-h-[90vh] flex flex-col fixed right-0 " >
+
+            <div className=" pt-4 max-lg:hidden  md:w-56 md:pl-4 overflow-x-hidden overflow-y-auto max-h-[90vh] flex flex-col fixed  right-2" >
 
 
                 {messages.length > 0 ? (

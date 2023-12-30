@@ -6,7 +6,6 @@ import { host } from "../../env";
 
 const ProfileSide = () => {
     const [user, setUser] = useState(null);
-    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         fetch(host + "/api/users/myinfo", { credentials: 'include' })
@@ -14,24 +13,9 @@ const ProfileSide = () => {
             .then((data) => setUser(data));
     }, []);
 
-
-    useEffect(() => {
-        if (user?.data) {
-            fetch(host + "/api/posts/user/" + user.data._id)
-                .then((res) => res.json())
-                .then((data) =>
-                    setPosts(
-                        data?.data?.sort((a, b) => {
-                            return a.time < b.time ? 1 : -1;
-                        })
-                    )
-                );
-        }
-    }, [user]);
-
     return (
         <>
-            <div className=" pt-4 w-1/3 flex justify-center  "  >
+            <div className=" pt-4 flex justify-center  "  >
                 <ProfileDetail user={user?.data}></ProfileDetail>
             </div>
         </>

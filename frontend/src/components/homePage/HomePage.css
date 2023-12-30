@@ -4,4 +4,18 @@
         display: flex;
         flex-direction: row;
     }
+
+    .post {
+        width: 46vw;
+    }
+
+    .left {
+        width: 27vw;
+
+    }
+
+    .right {
+        width: 27vw;
+        margin-right: 2px;
+    }
 }

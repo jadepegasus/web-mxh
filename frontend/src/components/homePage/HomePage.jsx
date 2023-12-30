@@ -56,8 +56,10 @@ const HomePage = () => {
       <>
         <Header></Header>
         <div className="main bg-gray-500/10" >
-          <ProfileSide></ProfileSide>
-          <div className="">
+          <div class="left">
+            <ProfileSide></ProfileSide>
+          </div>
+          <div class="post">
             <Status user={user?.data} setPost={addPosts} />
             {posts.map((post) => (
               <Poster
@@ -69,7 +71,9 @@ const HomePage = () => {
               />
             ))}
           </div>
-          <ChatSide></ChatSide>
+          <div class="right">
+            <ChatSide></ChatSide>
+          </div>
         </div>
       </>
     );
