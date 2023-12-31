@@ -6,19 +6,6 @@ const ChatSide = ({ close }) => {
     const [messages, setMessages] = useState([]);
     const [selectedMessage, setSelectedMessage] = useState(null);
     const [chatbox, setChatbox] = useState(false);
-    const [friends, setFriends] = useState([]);
-    useEffect(() => {
-        fetch(host + "/api/friends/getfriends", { credentials: "include" })
-            .then((result) => result.json())
-            .then((data) => {
-                if (data.status === "success")
-                    setFriends(
-                        data.data.sort((a, b) => {
-                            return a.date < b.date ? 1 : -1;
-                        })
-                    );
-            });
-    }, []);
     useEffect(() => {
         fetch(host + "/api/messages", { credentials: "include" })
             .then((result) => result.json())

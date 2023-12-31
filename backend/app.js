@@ -1,4 +1,4 @@
-const https = require("http");
+const https = require("https");
 const fs = require("fs");
 const express = require("express");
 const session = require("express-session");
@@ -44,8 +44,8 @@ const sessionMiddleware = session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    sameSite: 'strict',
-    secure: false,
+    sameSite: 'none',
+    secure: true,
     maxAge: 604800000
   },
   store: MongoStore.create({

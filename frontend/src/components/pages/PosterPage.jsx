@@ -1,6 +1,6 @@
 import React from "react";
 import PosterView from "../homePage/PosterView";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { host } from "../../env";
 
 function useQuery() {
@@ -33,7 +33,7 @@ export default function PosterPage() {
     <div>
       <PosterView
         post_id={post_id}
-        close={e => {e.preventDefault()}}
+        close={e => {window.history.back()}}
         react={react}
         update={() => {}}
         setReact={setReact}
