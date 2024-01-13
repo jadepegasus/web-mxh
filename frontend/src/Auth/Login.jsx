@@ -269,7 +269,7 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="p-4 text-gray-300">© Nhóm 31 20231</div>
+          <div className="p-4 text-gray-300">© NguyenGiaPhong 20205013</div>
         </div>
       </div>
     );
